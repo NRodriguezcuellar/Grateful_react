@@ -1,5 +1,5 @@
 {
-  "name": "Grateful",
+  "name": "grateful",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -66,7 +66,8 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "2.4.7"
+    "@capacitor/cli": "2.4.7",
+    "@types/styled-components": "^5.1.9"
   },
   "description": "An Ionic project",
   "resolutions": {
