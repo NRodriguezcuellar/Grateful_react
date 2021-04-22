@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import {FirebaseAuthProvider, FirebaseAuthConsumer} from "@react-firebase/auth";
+import firebase from 'firebase/app'
+import "firebase/auth";
+import {firebaseConfig} from "./firebase";
+
 
 ReactDOM.render(
   <React.StrictMode>
