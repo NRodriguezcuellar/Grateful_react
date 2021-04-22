@@ -1,5 +1,14 @@
 import styled from "styled-components";
-import {IonInput, IonItem, IonLabel, IonRange, IonTextarea, IonIcon, IonChip, IonButton, IonItemGroup} from "@ionic/react";
+import {
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonRange,
+    IonTextarea,
+    IonIcon,
+    IonChip,
+    IonButton
+} from "@ionic/react";
 import {happyOutline, sadOutline, addOutline} from 'ionicons/icons';
 import {useState} from "react";
 
@@ -13,9 +22,10 @@ const InputItem = styled(IonItem)``
 const Title = styled.h1` text-align: center;
   margin-bottom: 2rem`
 
-const LabelContainer = styled(IonItem)`display: flex; flex-direction: column;`
+const LabelContainer = styled(IonItem)`display: flex;
+  flex-direction: column;`
 
-const LabelTitle = { paddingBottom: "10px"}
+const LabelTitle = {paddingBottom: "10px"}
 
 const hidden = {visibility: "hidden"}
 
@@ -26,8 +36,8 @@ const AddMomentView: React.FC = () => {
     const [labelInput, setLabelInput] = useState('')
 
     const labelHandler = (label: string) => {
-        const labelAlreadyExists = labels.find(savedLabel => savedLabel === label )
-        if(labelAlreadyExists) return;
+        const labelAlreadyExists = labels.find(savedLabel => savedLabel.toLowerCase() === label.toLowerCase())
+        if (labelAlreadyExists) return;
 
 
         setLabels([...labels, label])
@@ -54,23 +64,17 @@ const AddMomentView: React.FC = () => {
         </InputItem>
 
 
-
-            <IonItem lines="full">
-                <IonInput placeholder="A label" onIonChange={(event) => setLabelInput(event.detail.value!.toString())}/>
-                <IonButton onClick={ () => labelHandler(labelInput)}>
-                    <IonIcon slot="end" icon={addOutline}/>
-                    Add label
-                </IonButton>
-            </IonItem>
-
-
-
-
+        <IonItem lines="full">
+            <IonInput placeholder="A label" onIonChange={(event) => setLabelInput(event.detail.value!.toString())}/>
+            <IonButton onClick={() => labelHandler(labelInput)}>
+                <IonIcon slot="end" icon={addOutline}/>
+                Add label
+            </IonButton>
+        </IonItem>
 
 
         <LabelContainer lines="full">
             <IonLabel position="stacked" style={LabelTitle}>Labels</IonLabel>
-
 
 
             <div>

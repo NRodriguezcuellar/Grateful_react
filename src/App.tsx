@@ -26,14 +26,14 @@ import StandardView from "./view/StandardView";
 import AddMomentView from "./view/AddMomentView"
 
 const App: React.FC = () => {
-  const userMadeMomentToday = true;
+  const userMadeMomentToday = false;
 
 
 
   return  <IonApp>
     <IonReactRouter>
 
-      {userMadeMomentToday ? <AddMomentView/> : <StandardView/>}
+      {userMadeMomentToday ? <StandardView/> : <AddMomentView/> }
 
 
 
