@@ -3,17 +3,16 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import {FirebaseAuthProvider, FirebaseAuthConsumer} from "@react-firebase/auth";
-import firebase from 'firebase/app'
-import "firebase/auth";
-import {firebaseConfig} from "./firebase";
-
+import { FirebaseAuthProvider, FirebaseAuthConsumer } from '@react-firebase/auth';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import { firebaseConfig } from './firebase';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+    document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change
