@@ -1,8 +1,22 @@
 import styled from 'styled-components';
-import { IonInput, IonItem, IonLabel, IonRange, IonTextarea, IonIcon, IonChip, IonButton } from '@ionic/react';
+import {
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonRange,
+    IonTextarea,
+    IonIcon,
+    IonChip,
+    IonButton,
+    IonPage,
+    IonContent,
+} from '@ionic/react';
 import { happyOutline, sadOutline, addOutline } from 'ionicons/icons';
-import { useState } from 'react';
+import { useState } from '@hookstate/core';
 import React from 'react';
+import globalStore from '../stores/global';
+import { DateTime } from 'luxon';
+import { useHistory } from 'react-router';
 
 const ParentDiv = styled.div`
     margin: auto 0;
@@ -12,8 +26,10 @@ const ParentDiv = styled.div`
 const InputItem = styled(IonItem)``;
 
 const Title = styled.h1`
+    padding: 2rem 0;
     text-align: center;
     margin-bottom: 2rem;
+    font-size: 1.8rem;
 `;
 
 const LabelContainer = styled(IonItem)`
@@ -27,74 +43,90 @@ const ButtonsContainer = styled.div`
     width: 100%;
     padding: 20px;
 `;
+
+const AddButton = styled(IonButton)`
+    margin-left: auto;
+`;
 const LabelTitle = { paddingBottom: '10px' };
 
 const hidden = { visibility: 'hidden' };
 
-interface AddMomentViewProps {
-    skip?: () => void;
-}
-
-const AddMomentView: React.FC<AddMomentViewProps> = (props) => {
-    const [labels, setLabels] = useState<string[]>([]);
-    const [labelInput, setLabelInput] = useState<string>('');
+const AddMomentView: React.FC = () => {
+    const labels = useState<string[]>([]);
+    const labelInput = useState<string>('');
+    const state = useState(globalStore);
+    const router = useHistory();
 
     const labelHandler = (label: string) => {
         if (!label) return;
-        const labelAlreadyExists = labels.find((savedLabel) => savedLabel.toLowerCase() === label.toLowerCase());
+
+        const labelAlreadyExists = labels.find((savedLabel) => savedLabel.get().toLowerCase() === label.toLowerCase());
         if (labelAlreadyExists) return;
 
-        setLabels([...labels, label]);
+        labels.set([...labels.get(), label]);
+    };
+
+    const skipHandler = () => {
+        state.dailyMomentStatus.merge({
+            userMadeMomentToday: true,
+            lastUpdatedAt: DateTime.local().toISO(),
+        });
+        router.push('/tab1');
     };
 
     return (
-        <ParentDiv>
-            <Title>Add a moment</Title>
-            <InputItem>
-                <IonLabel position="floating">Title</IonLabel>
-                <IonInput placeholder="Today was..." />
-            </InputItem>
-            <InputItem>
-                <IonLabel position="floating">Description</IonLabel>
-                <IonTextarea placeholder="Describe your moment further" />
-            </InputItem>
+        <IonPage>
+            <IonContent fullscreen>
+                <ParentDiv>
+                    <Title>How are you feeling today?</Title>
+                    <InputItem>
+                        <IonLabel position="floating">Title</IonLabel>
+                        <IonInput placeholder="Today was..." />
+                    </InputItem>
+                    <InputItem>
+                        <IonLabel position="floating">Description</IonLabel>
+                        <IonTextarea placeholder="Describe your moment further" />
+                    </InputItem>
 
-            <InputItem>
-                <IonRange min={0} max={100} pin={true} step={10} snaps={true}>
-                    <IonIcon slot="end" icon={happyOutline} />
-                    <IonIcon slot="start" icon={sadOutline} />
-                </IonRange>
-            </InputItem>
+                    <InputItem>
+                        <IonRange min={0} max={100} pin={true} step={10} snaps={true}>
+                            <IonIcon slot="end" icon={happyOutline} />
+                            <IonIcon slot="start" icon={sadOutline} />
+                        </IonRange>
+                    </InputItem>
 
-            <IonItem lines="full">
-                <IonInput
-                    placeholder="A label"
-                    onIonChange={(event) => setLabelInput(event.detail.value!.toString())}
-                />
-                <IonButton onClick={() => labelHandler(labelInput)}>
-                    <IonIcon slot="end" icon={addOutline} />
-                    Add label
-                </IonButton>
-            </IonItem>
+                    <IonItem lines="full">
+                        <IonInput
+                            placeholder="A label"
+                            onIonChange={(event) => labelInput.set(event.detail.value!.toString())}
+                        />
+                        <IonButton onClick={() => labelHandler(labelInput.get())}>
+                            <IonIcon slot="end" icon={addOutline} />
+                            Add label
+                        </IonButton>
+                    </IonItem>
 
-            <LabelContainer lines="full">
-                <IonLabel position="stacked" style={LabelTitle}>
-                    Labels
-                </IonLabel>
+                    <LabelContainer lines="full">
+                        <IonLabel position="stacked" style={LabelTitle}>
+                            Labels
+                        </IonLabel>
 
-                <div>
-                    {labels.map((label, index) => (
-                        <IonChip key={index}>{label}</IonChip>
-                    ))}
-                    <IonChip style={hidden} />
-                </div>
-            </LabelContainer>
+                        <div>
+                            {labels.map((label, index) => (
+                                <IonChip key={index}>{label}</IonChip>
+                            ))}
+                            <IonChip style={hidden} />
+                        </div>
+                    </LabelContainer>
 
-            <ButtonsContainer>
-                <IonButton onClick={props.skip}>Skip</IonButton>
-                <IonButton>Add</IonButton>
-            </ButtonsContainer>
-        </ParentDiv>
+                    <ButtonsContainer>
+                        <IonButton onClick={skipHandler}>Cancel</IonButton>
+
+                        <AddButton>Save</AddButton>
+                    </ButtonsContainer>
+                </ParentDiv>
+            </IonContent>
+        </IonPage>
     );
 };
 

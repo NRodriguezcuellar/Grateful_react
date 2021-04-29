@@ -1,5 +1,6 @@
 import { IonApp } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { Route, Redirect } from 'react-router-dom';
 import { useState } from '@hookstate/core';
 import { DateTime } from 'luxon';
 import React from 'react';
@@ -23,26 +24,10 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import StandardView from './view/StandardView';
-import AddMomentView from './view/AddMomentView';
-import { Persistence } from '@hookstate/persistence';
+import globalStore from './stores/global';
 
 const App: React.FC = () => {
-    interface State {
-        userMadeMomentToday: boolean;
-        lastUpdatedAt: string | null;
-    }
-
-    const state = useState<State>({
-        userMadeMomentToday: false,
-        lastUpdatedAt: null,
-    });
-
-    state.attach(Persistence('MomentStatus'));
-
-    const momentStatusHandler = (value: boolean, time: string) => {
-        state.userMadeMomentToday.set(value);
-        state.lastUpdatedAt.set(time);
-    };
+    const state = useState(globalStore);
 
     const checkLastUpdatedTime = (iso: string) => {
         const currentTime = DateTime.local();
@@ -54,23 +39,19 @@ const App: React.FC = () => {
             const seconds = timeDifference / 1000;
             const secondsInDay = 60 * 60 * 24;
             if (seconds >= secondsInDay) {
-                state.userMadeMomentToday.set(false);
+                state.dailyMomentStatus.userMadeMomentToday.set(false);
             }
         }
     };
 
-    if (state.lastUpdatedAt.get()) {
-        checkLastUpdatedTime(state.lastUpdatedAt.get() as string);
+    if (state.dailyMomentStatus.lastUpdatedAt.get()) {
+        checkLastUpdatedTime(state.dailyMomentStatus.lastUpdatedAt.get() as string);
     }
 
     return (
         <IonApp>
             <IonReactRouter>
-                {state.userMadeMomentToday.get() ? (
-                    <StandardView />
-                ) : (
-                    <AddMomentView skip={() => momentStatusHandler(true, DateTime.local().toISO())} />
-                )}
+                <Route path="/" component={StandardView} />
             </IonReactRouter>
         </IonApp>
     );
