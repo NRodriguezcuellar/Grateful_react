@@ -1,11 +1,13 @@
 import { createState } from '@hookstate/core';
 import { Persistence } from '@hookstate/persistence';
+import { Moment } from '../models/Moment';
 
 interface GlobalStore {
     dailyMomentStatus: {
         userMadeMomentToday: boolean;
         lastUpdatedAt: null | string;
     };
+    moments: Moment[];
 }
 
 const globalStore = createState<GlobalStore>({
@@ -13,8 +15,9 @@ const globalStore = createState<GlobalStore>({
         userMadeMomentToday: true,
         lastUpdatedAt: null,
     },
+    moments: [],
 });
 
-globalStore.attach(Persistence('GratefulStore'));
+globalStore.attach(Persistence('GratefulStorage'));
 
 export default globalStore;
