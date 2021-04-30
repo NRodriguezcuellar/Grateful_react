@@ -8,4 +8,4 @@ interface Moment {
     updatedAt: string;
 }
 
-export { Moment };
+export type { Moment };
