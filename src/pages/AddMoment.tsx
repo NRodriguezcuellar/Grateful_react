@@ -12,12 +12,12 @@ import {
     IonContent,
 } from '@ionic/react';
 import { happyOutline, sadOutline, addOutline } from 'ionicons/icons';
-import { State, useState } from '@hookstate/core';
+import { useState } from '@hookstate/core';
 import React from 'react';
-import globalStore, { GlobalStore } from '../stores/global';
-import { DateTime } from 'luxon';
+import globalStore from '../stores/global';
 import { useHistory } from 'react-router';
 import { Moment } from '../models/Moment';
+import useMoment from '../custom-hooks/useMoment';
 
 const ParentDiv = styled.div`
     margin: auto 0;
@@ -57,6 +57,7 @@ const AddMoment: React.FC = () => {
     const state = useState(globalStore);
     const labelInput = useState<string>('');
     const moment = useState<Moment>({
+        id: state.moments.get().length + 1,
         title: '',
         description: '',
         labels: [],
@@ -66,43 +67,7 @@ const AddMoment: React.FC = () => {
         gratefulItems: [],
     });
 
-    const labelHandler = (momentState: State<Moment>, label: string) => {
-        if (!label) return;
-
-        const labelAlreadyExists = moment.labels
-            .get()
-            .find((savedLabel) => savedLabel.toLowerCase() === label.toLowerCase());
-        if (labelAlreadyExists) return;
-
-        moment.labels.set([...moment.labels.get(), label]);
-    };
-    const pushNewMoment = (moment: State<Moment>, store: State<GlobalStore>) =>
-        store.moments.merge([{ ...moment.get() }]);
-
-    const momentCleanUp = (momentState: State<Moment>) =>
-        momentState.set({
-            title: '',
-            description: '',
-            labels: [],
-            moodScale: 0,
-            createdAt: '',
-            updatedAt: '',
-            gratefulItems: [],
-        });
-
-    const momentHandler = () => {
-        pushNewMoment(moment, state);
-        momentCleanUp(moment);
-        router.push('/tab1');
-    };
-
-    const skipHandler = (state: State<GlobalStore>) => {
-        state.dailyMomentStatus.merge({
-            userMadeMomentToday: true,
-            lastUpdatedAt: DateTime.local().toISO(),
-        });
-        router.push('/');
-    };
+    const { labelHandler, momentHandler, skipHandler } = useMoment(state);
 
     return (
         <IonPage>
@@ -167,9 +132,9 @@ const AddMoment: React.FC = () => {
                     </LabelContainer>
 
                     <ButtonsContainer>
-                        <IonButton onClick={() => skipHandler(state)}>Cancel</IonButton>
+                        <IonButton onClick={() => skipHandler(() => router.push('/tab1'))}>Cancel</IonButton>
 
-                        <AddButton onClick={() => momentHandler()}>Save</AddButton>
+                        <AddButton onClick={() => momentHandler(moment, () => router.push('/tab1'))}>Save</AddButton>
                     </ButtonsContainer>
                 </ParentDiv>
             </IonContent>

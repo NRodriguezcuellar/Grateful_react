@@ -3,7 +3,7 @@ import { IonPage, IonContent, IonProgressBar } from '@ionic/react';
 
 const LoadingScreen: React.FC = () => (
     <IonPage>
-        <IonContent>
+        <IonContent fullscreen>
             <IonProgressBar type="indeterminate" />
         </IonContent>
     </IonPage>

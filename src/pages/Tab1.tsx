@@ -19,20 +19,22 @@ import '../assets/styles/calendar.css';
 import { useState } from '@hookstate/core';
 import globalStore from '../stores/global';
 import MomentListItem from '../components/MomentListItem';
+import useMoment from '../custom-hooks/useMoment';
 
 const inputStyles = { margin: '20px auto 0 auto' };
 
-const emptyState = { fontWeight: 400, margin: '1rem auto', width: '100%' };
+const emptyState = { fontWeight: 400, margin: '1rem auto', width: '100%', TextAlign: 'center' };
 
 const Tab1: React.FC = () => {
     const state = useState(globalStore);
-    const localMoments = useState(state.moments);
+    const { deleteMoment } = useMoment(state);
 
     const moments = () => {
-        const moments = localMoments.get();
-        console.log(moments);
+        const moments = state.moments.get();
         if (moments.length) {
-            return moments.map((moment, index) => <MomentListItem moment={moment} key={index} />);
+            return moments.map((moment, index) => (
+                <MomentListItem moment={moment} deleteCallBack={() => deleteMoment(moment)} key={index} />
+            ));
         } else {
             return <div style={emptyState}>No Moments added yet</div>;
         }
