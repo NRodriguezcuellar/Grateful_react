@@ -21,7 +21,7 @@ import useMoment from '../custom-hooks/useMoment';
 import TheHeader from '../components/TheHeader';
 
 const ParentDiv = styled.form`
-    margin: auto 0;
+    margin: auto auto;
     padding: 0 15px;
 `;
 
@@ -114,7 +114,7 @@ const AddMoment: React.FC = () => {
                         </IonRange>
                     </InputItem>
 
-                    <IonItem lines="full">
+                    <IonItem>
                         <IonInput
                             placeholder="A label"
                             value={labelInput.get()}
@@ -126,7 +126,7 @@ const AddMoment: React.FC = () => {
                         </IonButton>
                     </IonItem>
 
-                    <LabelContainer lines="full">
+                    <LabelContainer>
                         <IonLabel position="stacked" style={LabelTitle}>
                             Labels
                         </IonLabel>
