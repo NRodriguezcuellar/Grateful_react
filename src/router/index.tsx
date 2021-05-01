@@ -1,53 +1,42 @@
-import {IonReactRouter} from "@ionic/react-router";
-import {IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs} from "@ionic/react";
-import {Route, Redirect} from "react-router-dom";
-import Tab1 from "../pages/Tab1";
-import Tab2 from "../pages/Tab2";
-import Tab3 from "../pages/Tab3";
-import {ellipse, square, triangle} from "ionicons/icons";
+import { IonReactRouter } from '@ionic/react-router';
+import { IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
+import { Route, Redirect } from 'react-router-dom';
+import { ellipse, home, square } from 'ionicons/icons';
+import React, { lazy, Suspense } from 'react';
+import LoadingScreen from '../pages/LoadingScreen';
 
 const router: React.FC = () => (
-
     <IonReactRouter>
-        <IonTabs>
-            {/* here below are the routes */}
+        <Suspense fallback={<LoadingScreen />}>
+            <IonTabs>
+                {/* here below are the routes */}
 
-            <IonRouterOutlet>
+                <IonRouterOutlet>
+                    <Route exact path="/">
+                        <Redirect to="/tab1" />
+                    </Route>
+                    <Route path="/tab1" component={lazy(() => import('../pages/Tab1'))} />
 
-                <Route exact path="/tab1">
-                    <Tab1/>
-                </Route>
-                <Route exact path="/tab2">
-                    <Tab2/>
-                </Route>
-                <Route path="/tab3">
-                    <Tab3/>
-                    <Redirect from="/" to="/tab1"/>
-                </Route>
-            </IonRouterOutlet>
+                    <Route path="/tab2" component={lazy(() => import('../pages/Tab2'))} />
+                    <Route path="/tab3" component={lazy(() => import('../pages/Tab3'))} />
+                    <Route path="/addMoment" component={lazy(() => import('../pages/AddMoment'))} />
+                </IonRouterOutlet>
 
+                {/* here below is the footer */}
 
-            {/* here below is the footer */}
-
-
-
-            <IonTabBar slot="bottom">
-                <IonTabButton tab="tab1" href="/tab1">
-                    <IonIcon icon={triangle}/>
-                    <IonLabel>Tab 1</IonLabel>
-                </IonTabButton>
-                <IonTabButton tab="tab2" href="/tab2">
-                    <IonIcon icon={ellipse}/>
-                    <IonLabel>Tab 2</IonLabel>
-                </IonTabButton>
-                <IonTabButton tab="tab3" href="/tab3">
-                    <IonIcon icon={square}/>
-                    <IonLabel>Tab 3</IonLabel>
-                </IonTabButton>
-            </IonTabBar>
-
-
-        </IonTabs>
+                <IonTabBar slot="bottom">
+                    <IonTabButton tab="tab1" href="/tab1">
+                        <IonIcon icon={home} />
+                    </IonTabButton>
+                    <IonTabButton tab="tab2" href="/tab2">
+                        <IonIcon icon={ellipse} />
+                    </IonTabButton>
+                    <IonTabButton tab="tab3" href="/tab3">
+                        <IonIcon icon={square} />
+                    </IonTabButton>
+                </IonTabBar>
+            </IonTabs>
+        </Suspense>
     </IonReactRouter>
-)
-export default router
+);
+export default router;

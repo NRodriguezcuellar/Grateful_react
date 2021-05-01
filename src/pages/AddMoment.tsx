@@ -12,9 +12,9 @@ import {
     IonContent,
 } from '@ionic/react';
 import { happyOutline, sadOutline, addOutline } from 'ionicons/icons';
-import { useState } from '@hookstate/core';
+import { State, useState } from '@hookstate/core';
 import React from 'react';
-import globalStore from '../stores/global';
+import globalStore, { GlobalStore } from '../stores/global';
 import { DateTime } from 'luxon';
 import { useHistory } from 'react-router';
 import { Moment } from '../models/Moment';
@@ -52,7 +52,8 @@ const LabelTitle = { paddingBottom: '10px' };
 
 const hidden = { visibility: 'hidden' };
 
-const AddMomentView: React.FC = () => {
+const AddMoment: React.FC = () => {
+    const router = useHistory();
     const state = useState(globalStore);
     const labelInput = useState<string>('');
     const moment = useState<Moment>({
@@ -64,9 +65,8 @@ const AddMomentView: React.FC = () => {
         updatedAt: '',
         gratefulItems: [],
     });
-    const router = useHistory();
 
-    const labelHandler = (label: string) => {
+    const labelHandler = (momentState: State<Moment>, label: string) => {
         if (!label) return;
 
         const labelAlreadyExists = moment.labels
@@ -76,14 +76,11 @@ const AddMomentView: React.FC = () => {
 
         moment.labels.set([...moment.labels.get(), label]);
     };
+    const pushNewMoment = (moment: State<Moment>, store: State<GlobalStore>) =>
+        store.moments.merge([{ ...moment.get() }]);
 
-    const momentHandler = () => {
-        state.moments.set((momentArray) => {
-            momentArray.push(moment.get());
-            return momentArray;
-        });
-
-        moment.set({
+    const momentCleanUp = (momentState: State<Moment>) =>
+        momentState.set({
             title: '',
             description: '',
             labels: [],
@@ -93,10 +90,13 @@ const AddMomentView: React.FC = () => {
             gratefulItems: [],
         });
 
+    const momentHandler = () => {
+        pushNewMoment(moment, state);
+        momentCleanUp(moment);
         router.push('/tab1');
     };
 
-    const skipHandler = () => {
+    const skipHandler = (state: State<GlobalStore>) => {
         state.dailyMomentStatus.merge({
             userMadeMomentToday: true,
             lastUpdatedAt: DateTime.local().toISO(),
@@ -147,7 +147,7 @@ const AddMomentView: React.FC = () => {
                             value={labelInput.get()}
                             onIonChange={(event) => labelInput.set(event.detail.value!.toString())}
                         />
-                        <IonButton onClick={() => labelHandler(labelInput.get())}>
+                        <IonButton onClick={() => labelHandler(moment, labelInput.get())}>
                             <IonIcon slot="end" icon={addOutline} />
                             Add label
                         </IonButton>
@@ -167,9 +167,9 @@ const AddMomentView: React.FC = () => {
                     </LabelContainer>
 
                     <ButtonsContainer>
-                        <IonButton onClick={skipHandler}>Cancel</IonButton>
+                        <IonButton onClick={() => skipHandler(state)}>Cancel</IonButton>
 
-                        <AddButton onClick={momentHandler}>Save</AddButton>
+                        <AddButton onClick={() => momentHandler()}>Save</AddButton>
                     </ButtonsContainer>
                 </ParentDiv>
             </IonContent>
@@ -177,4 +177,4 @@ const AddMomentView: React.FC = () => {
     );
 };
 
-export default AddMomentView;
+export default AddMoment;

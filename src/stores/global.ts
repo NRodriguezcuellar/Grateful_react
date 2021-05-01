@@ -2,7 +2,7 @@ import { createState } from '@hookstate/core';
 import { Persistence } from '@hookstate/persistence';
 import { Moment } from '../models/Moment';
 
-interface GlobalStore {
+export interface GlobalStore {
     dailyMomentStatus: {
         userMadeMomentToday: boolean;
         lastUpdatedAt: null | string;
