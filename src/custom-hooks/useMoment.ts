@@ -36,18 +36,24 @@ const momentCleanUp = (momentState: State<Moment>) =>
         gratefulItems: [],
     });
 
-const momentHandler = (store: State<GlobalStore>, moment: State<Moment>, routeCallBack: any) => {
+const momentHandler = (store: State<GlobalStore>, moment: State<Moment>, routeCallBack?: any) => {
     pushNewMoment(moment, store);
     momentCleanUp(moment);
-    routeCallBack();
+
+    if (routeCallBack) {
+        routeCallBack();
+    }
 };
 
-const skipHandler = (store: State<GlobalStore>, routeCallBack: any) => {
+const skipHandler = (store: State<GlobalStore>, routeCallBack?: any) => {
     store.dailyMomentStatus.merge({
         userMadeMomentToday: true,
         lastUpdatedAt: DateTime.local().toISO(),
     });
-    routeCallBack();
+
+    if (routeCallBack) {
+        routeCallBack();
+    }
 };
 
 const deleteMoment = (store: State<GlobalStore>, idToDelete: Moment['id']) => {
@@ -63,7 +69,7 @@ const useMoment = (store: State<GlobalStore>) => {
     return {
         labelHandler,
         momentHandler: (moment: State<Moment>, routeCallBack: any) => momentHandler(store, moment, routeCallBack),
-        skipHandler: (routeCallBack: any) => skipHandler(store, routeCallBack),
+        skipHandler: (routeCallBack?: any) => skipHandler(store, routeCallBack),
         deleteMoment: (idToDelete: Moment['id']) => deleteMoment(store, idToDelete),
     };
 };

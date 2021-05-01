@@ -74,7 +74,12 @@ const AddMoment: React.FC = () => {
         <IonPage>
             <TheHeader />
             <IonContent fullscreen>
-                <ParentDiv onSubmit={() => momentHandler(moment, () => router.push('/tab1'))}>
+                <ParentDiv
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        momentHandler(moment, () => router.push('/'));
+                    }}
+                >
                     <Title>How are you feeling today?</Title>
                     <InputItem>
                         <IonLabel position="floating">Title</IonLabel>
@@ -135,7 +140,7 @@ const AddMoment: React.FC = () => {
                     </LabelContainer>
 
                     <ButtonsContainer>
-                        <IonButton onClick={() => skipHandler(() => router.push('/tab1'))}>Cancel</IonButton>
+                        <IonButton onClick={() => skipHandler(() => router.push('/'))}>Cancel</IonButton>
 
                         <AddButton type="submit">Save</AddButton>
                     </ButtonsContainer>
