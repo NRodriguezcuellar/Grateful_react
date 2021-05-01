@@ -50,9 +50,9 @@ const skipHandler = (store: State<GlobalStore>, routeCallBack: any) => {
     routeCallBack();
 };
 
-const deleteMoment = (store: State<GlobalStore>, momentToDelete: Moment) => {
+const deleteMoment = (store: State<GlobalStore>, idToDelete: Moment['id']) => {
     const moments = store.moments.get();
-    const foundMoment = moments.find((moment) => moment.id === momentToDelete.id);
+    const foundMoment = moments.find((moment) => moment.id === idToDelete);
     if (foundMoment) {
         const indexOfMoment = moments.indexOf(foundMoment);
         store.moments[indexOfMoment].set(none);
@@ -64,7 +64,7 @@ const useMoment = (store: State<GlobalStore>) => {
         labelHandler,
         momentHandler: (moment: State<Moment>, routeCallBack: any) => momentHandler(store, moment, routeCallBack),
         skipHandler: (routeCallBack: any) => skipHandler(store, routeCallBack),
-        deleteMoment: (momentToDelete: Moment) => deleteMoment(store, momentToDelete),
+        deleteMoment: (idToDelete: Moment['id']) => deleteMoment(store, idToDelete),
     };
 };
 

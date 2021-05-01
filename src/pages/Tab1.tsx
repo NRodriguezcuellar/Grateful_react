@@ -23,7 +23,7 @@ import useMoment from '../custom-hooks/useMoment';
 
 const inputStyles = { margin: '20px auto 0 auto' };
 
-const emptyState = { fontWeight: 400, margin: '1rem auto', width: '100%', TextAlign: 'center' };
+const emptyState = { fontWeight: 400, margin: '1rem auto', width: '100%', paddingLeft: '1.3rem' };
 
 const Tab1: React.FC = () => {
     const state = useState(globalStore);
@@ -33,10 +33,10 @@ const Tab1: React.FC = () => {
         const moments = state.moments.get();
         if (moments.length) {
             return moments.map((moment, index) => (
-                <MomentListItem moment={moment} deleteCallBack={() => deleteMoment(moment)} key={index} />
+                <MomentListItem moment={moment} deleteCallBack={() => deleteMoment(moment.id)} key={index} />
             ));
         } else {
-            return <div style={emptyState}>No Moments added yet</div>;
+            return <h6 style={emptyState}>No Moments added yet!</h6>;
         }
     };
 
@@ -44,18 +44,12 @@ const Tab1: React.FC = () => {
         <IonPage>
             <TheHeader />
             <IonContent>
-                <IonList>
+                <IonList style={{ height: '100%' }}>
                     <IonListHeader>
                         <h1>Your moments</h1>
                     </IonListHeader>
                     {moments()}
                 </IonList>
-
-                <IonFab vertical="bottom" horizontal="end" slot="fixed">
-                    <IonFabButton routerLink="/addMoment">
-                        <IonIcon icon={addOutline} />
-                    </IonFabButton>
-                </IonFab>
             </IonContent>
         </IonPage>
     );

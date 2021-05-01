@@ -18,8 +18,9 @@ import globalStore from '../stores/global';
 import { useHistory } from 'react-router';
 import { Moment } from '../models/Moment';
 import useMoment from '../custom-hooks/useMoment';
+import TheHeader from '../components/TheHeader';
 
-const ParentDiv = styled.div`
+const ParentDiv = styled.form`
     margin: auto 0;
     padding: 0 15px;
 `;
@@ -57,7 +58,7 @@ const AddMoment: React.FC = () => {
     const state = useState(globalStore);
     const labelInput = useState<string>('');
     const moment = useState<Moment>({
-        id: state.moments.get().length + 1,
+        id: 0,
         title: '',
         description: '',
         labels: [],
@@ -71,13 +72,15 @@ const AddMoment: React.FC = () => {
 
     return (
         <IonPage>
+            <TheHeader />
             <IonContent fullscreen>
-                <ParentDiv>
+                <ParentDiv onSubmit={() => momentHandler(moment, () => router.push('/tab1'))}>
                     <Title>How are you feeling today?</Title>
                     <InputItem>
                         <IonLabel position="floating">Title</IonLabel>
                         <IonInput
                             placeholder="Today was..."
+                            required
                             value={moment.title.get()}
                             onIonChange={(event) => moment.title.set(event.detail.value!.toString())}
                         />
@@ -134,7 +137,7 @@ const AddMoment: React.FC = () => {
                     <ButtonsContainer>
                         <IonButton onClick={() => skipHandler(() => router.push('/tab1'))}>Cancel</IonButton>
 
-                        <AddButton onClick={() => momentHandler(moment, () => router.push('/tab1'))}>Save</AddButton>
+                        <AddButton type="submit">Save</AddButton>
                     </ButtonsContainer>
                 </ParentDiv>
             </IonContent>
