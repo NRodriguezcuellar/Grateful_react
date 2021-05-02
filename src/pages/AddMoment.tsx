@@ -28,10 +28,9 @@ const ParentDiv = styled.form`
 const InputItem = styled(IonItem)``;
 
 const Title = styled.h1`
-    padding: 2rem 0;
     text-align: center;
     margin-bottom: 2rem;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 `;
 
 const LabelContainer = styled(IonItem)`
@@ -43,7 +42,7 @@ const ButtonsContainer = styled.div`
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: 20px;
+    padding: 3rem 20px;
 `;
 
 const AddButton = styled(IonButton)`
@@ -95,11 +94,13 @@ const AddMoment: React.FC = () => {
                         <IonTextarea
                             placeholder="Describe your moment further"
                             value={moment.description.get()}
+                            autoGrow={true}
                             onIonChange={(event) => moment.description.set(event.detail.value!.toString())}
                         />
                     </InputItem>
 
                     <InputItem>
+                        <IonLabel position="floating">Mood Scale</IonLabel>
                         <IonRange
                             min={0}
                             max={100}
@@ -122,11 +123,11 @@ const AddMoment: React.FC = () => {
                         />
                         <IonButton onClick={() => labelHandler(moment, labelInput.get())}>
                             <IonIcon slot="end" icon={addOutline} />
-                            Add label
+                            Add
                         </IonButton>
                     </IonItem>
 
-                    <LabelContainer>
+                    <LabelContainer lines="none">
                         <IonLabel position="stacked" style={LabelTitle}>
                             Labels
                         </IonLabel>
@@ -135,6 +136,7 @@ const AddMoment: React.FC = () => {
                             {moment.labels.get().map((label, index) => (
                                 <IonChip key={index}>{label}</IonChip>
                             ))}
+                            {moment.labels.get().length ? null : 'No label'}
                             <IonChip style={hidden} />
                         </div>
                     </LabelContainer>

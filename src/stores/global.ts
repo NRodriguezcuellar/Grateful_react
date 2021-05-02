@@ -8,6 +8,7 @@ export interface GlobalStore {
         lastUpdatedAt: null | string;
     };
     moments: Moment[];
+    currentTabItemOpen: number | null;
 }
 
 const globalStore = createState<GlobalStore>({
@@ -16,6 +17,7 @@ const globalStore = createState<GlobalStore>({
         lastUpdatedAt: null,
     },
     moments: [],
+    currentTabItemOpen: null,
 });
 
 globalStore.attach(Persistence('GratefulStorage'));

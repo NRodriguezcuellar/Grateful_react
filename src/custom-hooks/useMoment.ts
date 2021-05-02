@@ -14,14 +14,17 @@ const labelHandler = (momentState: State<Moment>, label: string) => {
     momentState.labels.set([...momentState.labels.get(), label]);
 };
 const pushNewMoment = (moment: State<Moment>, store: State<GlobalStore>) => {
-    const greatestIdInStore = Math.max(...store.moments.get().map((moment) => moment.id));
+    const allMoments = store.moments.get();
+    const newMoment = moment.get();
+    const greatestIdInStore = allMoments.length ? Math.max(...allMoments.map((moment) => moment.id)) : 0;
+
     const currentTime = DateTime.local().toISO();
     moment.merge({
         id: greatestIdInStore + 1,
         createdAt: currentTime,
         updatedAt: currentTime,
     });
-    store.moments.merge([{ ...moment.get() }]);
+    store.moments.merge([{ ...newMoment }]);
 };
 
 const momentCleanUp = (momentState: State<Moment>) =>
