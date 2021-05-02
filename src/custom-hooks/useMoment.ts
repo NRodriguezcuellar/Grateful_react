@@ -66,6 +66,10 @@ const deleteMoment = (store: State<GlobalStore>, idToDelete: Moment['id']) => {
         const indexOfMoment = moments.indexOf(foundMoment);
         store.moments[indexOfMoment].set(none);
     }
+
+    if (!moments.length) {
+        store.currentTabItemOpen.set(null);
+    }
 };
 
 const useMoment = (store: State<GlobalStore>) => {

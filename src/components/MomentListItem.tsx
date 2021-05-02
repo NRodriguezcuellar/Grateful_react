@@ -1,15 +1,25 @@
 import React from 'react';
-import { IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonNote } from '@ionic/react';
+import {
+    IonIcon,
+    IonItem,
+    IonItemOption,
+    IonItemOptions,
+    IonItemSliding,
+    IonLabel,
+    IonNote,
+    IonButton,
+} from '@ionic/react';
 import { Moment } from '../models/Moment';
-import { trashOutline } from 'ionicons/icons';
+import { trashOutline, resizeOutline, chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
 import { State, useState } from '@hookstate/core';
 import globalStore, { GlobalStore } from '../stores/global';
 import ExpandedMomentListItem from './ExpandedMomentListItem';
 import { ColorObject, getColorForPercentage } from '../helpers/general';
 
 const colorMaps: ColorObject[] = [
-    { percentage: 0, color: { r: 255, g: 158, b: 0 } },
-    { percentage: 1, color: { r: 91, g: 255, b: 0 } },
+    { percentage: 0, color: { r: 255, g: 196, b: 9 } },
+    { percentage: 0.8, color: { r: 61, g: 194, b: 255 } },
+    { percentage: 1, color: { r: 56, g: 128, b: 255 } },
 ];
 
 const momentListItem: React.FC<{
@@ -42,11 +52,21 @@ const momentListItem: React.FC<{
                         <h2> {props.moment.title}</h2>
                         <p> {props.moment.description}</p>
                     </IonLabel>
+
+                    <IonIcon
+                        icon={
+                            state.currentTabItemOpen.get() === props.currentItemIndex
+                                ? chevronUpOutline
+                                : chevronDownOutline
+                        }
+                    />
+
                     <IonNote
                         slot="end"
                         style={{
                             fontSize: '1.2rem',
-                            color: getColorForPercentage(props.moment.moodScale / 100, colorMaps),
+                            color: getColorForPercentage(props.moment.moodScale / 10, colorMaps),
+                            width: '35.65px',
                         }}
                     >
                         {props.moment.moodScale}

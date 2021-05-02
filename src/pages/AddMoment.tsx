@@ -100,12 +100,12 @@ const AddMoment: React.FC = () => {
                     </InputItem>
 
                     <InputItem>
-                        <IonLabel position="floating">Mood Scale</IonLabel>
+                        <IonLabel position="floating">Mood </IonLabel>
                         <IonRange
                             min={0}
-                            max={100}
+                            max={10}
                             pin={true}
-                            step={10}
+                            step={1}
                             value={moment.moodScale.get()}
                             snaps={true}
                             onIonChange={(event) => moment.moodScale.set(event.detail.value as number)}
@@ -114,32 +114,39 @@ const AddMoment: React.FC = () => {
                             <IonIcon slot="start" icon={sadOutline} />
                         </IonRange>
                     </InputItem>
+                    {/*
 
-                    <IonItem>
-                        <IonInput
-                            placeholder="A label"
-                            value={labelInput.get()}
-                            onIonChange={(event) => labelInput.set(event.detail.value!.toString())}
-                        />
-                        <IonButton onClick={() => labelHandler(moment, labelInput.get())}>
-                            <IonIcon slot="end" icon={addOutline} />
-                            Add
-                        </IonButton>
-                    </IonItem>
+                        <IonItem>
+                            <IonInput
+                                placeholder="A label"
+                                value={labelInput.get()}
+                                onIonChange={(event) => labelInput.set(event.detail.value!.toString())}
+                            />
+                            <IonButton onClick={() => labelHandler(moment, labelInput.get())}>
+                                <IonIcon slot="end" icon={addOutline}/>
+                                Add
+                            </IonButton>
+                        </IonItem>
 
-                    <LabelContainer lines="none">
+                        <LabelContainer lines="none">
                         <IonLabel position="stacked" style={LabelTitle}>
-                            Labels
+                        Labels
                         </IonLabel>
 
                         <div>
-                            {moment.labels.get().map((label, index) => (
-                                <IonChip key={index}>{label}</IonChip>
-                            ))}
-                            {moment.labels.get().length ? null : 'No label'}
-                            <IonChip style={hidden} />
+                    {moment.labels.get().map((label, index) => (
+                        <IonChip key={index}>{label}</IonChip>
+                        ))}
+                    {moment.labels.get().length ? null : 'No label'}
+                        <IonChip style={hidden} />
                         </div>
-                    </LabelContainer>
+                        </LabelContainer>
+                        */}
+
+                    <InputItem>
+                        <IonLabel position="floating">Gratefuls</IonLabel>
+                        <IonInput required placeholder="Today i was grateful for.." />
+                    </InputItem>
 
                     <ButtonsContainer>
                         <IonButton onClick={() => skipHandler(() => router.push('/'))}>Cancel</IonButton>

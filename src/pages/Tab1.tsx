@@ -1,27 +1,7 @@
-import React, { useEffect } from 'react';
-import {
-    IonContent,
-    IonFab,
-    IonFabButton,
-    IonPage,
-    IonIcon,
-    IonList,
-    IonItem,
-    IonListHeader,
-    IonTitle,
-    IonLabel,
-    IonBadge,
-    IonModal,
-    IonCard,
-    IonBackdrop,
-    IonButton,
-    IonCardHeader,
-    IonCardContent,
-} from '@ionic/react';
-import { addOutline } from 'ionicons/icons';
-import './Tab1.css';
+import React from 'react';
+import { IonContent, IonPage, IonList, IonListHeader } from '@ionic/react';
+import '../assets/styles/Tab1.css';
 import TheHeader from '../components/TheHeader';
-import '../assets/styles/calendar.css';
 import { useState } from '@hookstate/core';
 import globalStore from '../stores/global';
 import MomentListItem from '../components/MomentListItem';
@@ -36,12 +16,12 @@ const Tab1: React.FC = () => {
     const moments = () => {
         const moments = state.moments.get();
         if (moments.length) {
-            return moments.map((moment, index) => (
+            return moments.map((moment) => (
                 <MomentListItem
                     moment={moment}
                     deleteCallBack={() => deleteMoment(moment.id)}
-                    key={index}
-                    currentItemIndex={index}
+                    key={moment.id}
+                    currentItemIndex={moment.id}
                 />
             ));
         } else {
@@ -53,7 +33,7 @@ const Tab1: React.FC = () => {
         <IonPage>
             <TheHeader />
             <IonContent>
-                <IonList style={{ height: '100%' }}>
+                <IonList style={{ minHeight: '100%' }}>
                     <IonListHeader>
                         <h1>Your moments</h1>
                     </IonListHeader>
