@@ -1,7 +1,17 @@
 import React from 'react';
 import { Moment } from '../models/Moment';
 import { DateTime } from 'luxon';
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
+import {
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonCardSubtitle,
+    IonCardTitle,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonItemDivider,
+} from '@ionic/react';
 
 const ExpandedItem: React.FC<{ moment: Moment }> = (props) => {
     const dateTime = DateTime.fromISO(props.moment.createdAt);
@@ -18,7 +28,26 @@ const ExpandedItem: React.FC<{ moment: Moment }> = (props) => {
                 <IonCardSubtitle>Mood: {props.moment.moodScale}</IonCardSubtitle>
             </IonCardHeader>
             <IonCardContent>
-                <p style={{ fontWeight: 400, paddingTop: '1.2rem' }}>{props.moment.description}</p>
+                {props.moment.description !== '' && (
+                    <>
+                        <IonItemDivider>Moment</IonItemDivider>
+                        <h4 style={{ fontWeight: 500, paddingTop: '0.5rem' }}>Description:</h4>
+                        <p style={{ fontWeight: 400 }}>{props.moment.description}</p>{' '}
+                    </>
+                )}
+                {props.moment.gratefulItems.length > 0 && (
+                    <>
+                        <IonItemDivider>Gratefuls</IonItemDivider>
+                        <IonList>
+                            {props.moment.gratefulItems.map((gratefulItem, index) => (
+                                <IonItem key={index}>
+                                    <IonLabel>{index}</IonLabel>
+                                    <p>{gratefulItem}</p>
+                                </IonItem>
+                            ))}
+                        </IonList>
+                    </>
+                )}
             </IonCardContent>
         </IonCard>
     );

@@ -1,16 +1,7 @@
 import React from 'react';
-import {
-    IonIcon,
-    IonItem,
-    IonItemOption,
-    IonItemOptions,
-    IonItemSliding,
-    IonLabel,
-    IonNote,
-    IonButton,
-} from '@ionic/react';
+import { IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonNote } from '@ionic/react';
 import { Moment } from '../models/Moment';
-import { trashOutline, resizeOutline, chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
+import { trashOutline, chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
 import { State, useState } from '@hookstate/core';
 import globalStore, { GlobalStore } from '../stores/global';
 import ExpandedMomentListItem from './ExpandedMomentListItem';

@@ -10,6 +10,8 @@ import {
     IonButton,
     IonPage,
     IonContent,
+    IonItemGroup,
+    IonItemDivider,
 } from '@ionic/react';
 import { happyOutline, sadOutline, addOutline } from 'ionicons/icons';
 import { useState } from '@hookstate/core';
@@ -22,7 +24,6 @@ import TheHeader from '../components/TheHeader';
 
 const ParentDiv = styled.form`
     margin: auto auto;
-    padding: 0 15px;
 `;
 
 const InputItem = styled(IonItem)``;
@@ -64,7 +65,7 @@ const AddMoment: React.FC = () => {
         moodScale: 0,
         createdAt: '',
         updatedAt: '',
-        gratefulItems: [],
+        gratefulItems: [''],
     });
 
     const { labelHandler, momentHandler, skipHandler } = useMoment(state);
@@ -72,49 +73,56 @@ const AddMoment: React.FC = () => {
     return (
         <IonPage>
             <TheHeader />
-            <IonContent fullscreen>
+            <IonContent>
                 <ParentDiv
                     onSubmit={(e) => {
                         e.preventDefault();
                         momentHandler(moment, () => router.push('/'));
                     }}
                 >
-                    <Title>How are you feeling today?</Title>
-                    <InputItem>
-                        <IonLabel position="floating">Title</IonLabel>
-                        <IonInput
-                            placeholder="Today was..."
-                            required
-                            value={moment.title.get()}
-                            onIonChange={(event) => moment.title.set(event.detail.value!.toString())}
-                        />
-                    </InputItem>
-                    <InputItem>
-                        <IonLabel position="floating">Description</IonLabel>
-                        <IonTextarea
-                            placeholder="Describe your moment further"
-                            value={moment.description.get()}
-                            autoGrow={true}
-                            onIonChange={(event) => moment.description.set(event.detail.value!.toString())}
-                        />
-                    </InputItem>
+                    <IonItemGroup>
+                        <Title>How are you feeling today?</Title>
 
-                    <InputItem>
-                        <IonLabel position="floating">Mood </IonLabel>
-                        <IonRange
-                            min={0}
-                            max={10}
-                            pin={true}
-                            step={1}
-                            value={moment.moodScale.get()}
-                            snaps={true}
-                            onIonChange={(event) => moment.moodScale.set(event.detail.value as number)}
-                        >
-                            <IonIcon slot="end" icon={happyOutline} />
-                            <IonIcon slot="start" icon={sadOutline} />
-                        </IonRange>
-                    </InputItem>
-                    {/*
+                        <IonItemDivider>
+                            <IonLabel> Moment </IonLabel>
+                        </IonItemDivider>
+                        <InputItem>
+                            <IonLabel position="floating">Title</IonLabel>
+                            <IonInput
+                                placeholder="Today was..."
+                                required
+                                value={moment.title.get()}
+                                onIonChange={(event) => moment.title.set(event.detail.value!.toString())}
+                            />
+                        </InputItem>
+                        <InputItem>
+                            <IonLabel position="floating">Description</IonLabel>
+                            <IonTextarea
+                                placeholder="Describe your moment further"
+                                value={moment.description.get()}
+                                autoGrow={true}
+                                onIonChange={(event) => moment.description.set(event.detail.value!.toString())}
+                            />
+                        </InputItem>
+
+                        <InputItem lines="none">
+                            <IonLabel>Mood </IonLabel>
+                            <IonRange
+                                min={0}
+                                max={10}
+                                pin={true}
+                                step={1}
+                                ticks={true}
+                                value={moment.moodScale.get()}
+                                snaps={true}
+                                onIonChange={(event) => moment.moodScale.set(event.detail.value as number)}
+                            >
+                                <IonIcon slot="end" icon={happyOutline} />
+                                <IonIcon slot="start" icon={sadOutline} />
+                            </IonRange>
+                        </InputItem>
+
+                        {/*
 
                         <IonItem>
                             <IonInput
@@ -142,11 +150,32 @@ const AddMoment: React.FC = () => {
                         </div>
                         </LabelContainer>
                         */}
+                        <IonItemDivider>
+                            <IonLabel> Gratefuls </IonLabel>
+                        </IonItemDivider>
 
-                    <InputItem>
-                        <IonLabel position="floating">Gratefuls</IonLabel>
-                        <IonInput required placeholder="Today i was grateful for.." />
-                    </InputItem>
+                        {moment.gratefulItems.map((gratefulItem, index) => (
+                            <IonItem key={index}>
+                                <IonLabel>{index + 1}</IonLabel>
+                                <IonInput
+                                    key={index}
+                                    placeholder="Today i was grateful for.."
+                                    value={gratefulItem.get()}
+                                    onIonChange={(input) => gratefulItem.set(input.detail.value!.toString())}
+                                />
+                            </IonItem>
+                        ))}
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <IonButton
+                                slot="end"
+                                size="small"
+                                fill="outline"
+                                onClick={() => moment.gratefulItems.merge([''])}
+                            >
+                                add
+                            </IonButton>
+                        </div>
+                    </IonItemGroup>
 
                     <ButtonsContainer>
                         <IonButton onClick={() => skipHandler(() => router.push('/'))}>Cancel</IonButton>

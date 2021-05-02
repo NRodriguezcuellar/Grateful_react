@@ -2,6 +2,7 @@ import { State, none } from '@hookstate/core';
 import { GlobalStore } from '../stores/global';
 import { Moment } from '../models/Moment';
 import { DateTime } from 'luxon';
+import cloneDeep from 'lodash/cloneDeep';
 
 const labelHandler = (momentState: State<Moment>, label: string) => {
     if (!label) return;
@@ -15,16 +16,19 @@ const labelHandler = (momentState: State<Moment>, label: string) => {
 };
 const pushNewMoment = (moment: State<Moment>, store: State<GlobalStore>) => {
     const allMoments = store.moments.get();
-    const newMoment = moment.get();
     const greatestIdInStore = allMoments.length ? Math.max(...allMoments.map((moment) => moment.id)) : 0;
 
     const currentTime = DateTime.local().toISO();
+    const filteredGratefulItems = moment.gratefulItems.get().filter((item) => item !== '');
+
     moment.merge({
         id: greatestIdInStore + 1,
         createdAt: currentTime,
         updatedAt: currentTime,
+        gratefulItems: filteredGratefulItems,
     });
-    store.moments.merge([{ ...newMoment }]);
+
+    store.moments.merge([cloneDeep({ ...moment.get() })]);
 };
 
 const momentCleanUp = (momentState: State<Moment>) =>
@@ -36,7 +40,7 @@ const momentCleanUp = (momentState: State<Moment>) =>
         moodScale: 0,
         createdAt: '',
         updatedAt: '',
-        gratefulItems: [],
+        gratefulItems: [''],
     });
 
 const momentHandler = (store: State<GlobalStore>, moment: State<Moment>, routeCallBack?: any) => {
