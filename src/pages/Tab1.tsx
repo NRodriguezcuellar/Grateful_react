@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonPage, IonList, IonListHeader } from '@ionic/react';
+import { IonContent, IonPage, IonList, IonListHeader, IonSegmentButton, IonSegment } from '@ionic/react';
 import '../assets/styles/Tab1.css';
 import TheHeader from '../components/TheHeader';
 import { useState } from '@hookstate/core';
@@ -11,6 +11,7 @@ const emptyState = { fontWeight: 400, margin: '1rem auto', width: '100%', paddin
 
 const Tab1: React.FC = () => {
     const state = useState(globalStore);
+    const datePeriodState = useState('month');
     const { deleteMoment } = useMoment(state);
 
     const moments = () => {
@@ -37,6 +38,15 @@ const Tab1: React.FC = () => {
                     <IonListHeader>
                         <h1>Your moments</h1>
                     </IonListHeader>
+                    <IonSegment
+                        value={datePeriodState.get()}
+                        onIonChange={(event) => datePeriodState.set(event.detail.value!)}
+                    >
+                        <IonSegmentButton value="year"> Year</IonSegmentButton>
+                        <IonSegmentButton value="month">Month</IonSegmentButton>
+                        <IonSegmentButton value="week"> Week</IonSegmentButton>
+                    </IonSegment>
+
                     {moments()}
                 </IonList>
             </IonContent>

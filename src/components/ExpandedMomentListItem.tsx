@@ -31,9 +31,7 @@ const ExpandedItem: React.FC<{ moment: Moment }> = (props) => {
                 {props.moment.description !== '' && (
                     <>
                         <IonItemDivider style={{ paddingBottom: '1rem' }}>Moment</IonItemDivider>
-                        <p style={{ fontWeight: 400, padding: '0 0 2rem 0.5rem', color: 'black' }}>
-                            {props.moment.description}
-                        </p>{' '}
+                        <p style={{ fontWeight: 400, padding: '0 0 2rem 0.5rem' }}>{props.moment.description}</p>{' '}
                     </>
                 )}
                 {props.moment.gratefulItems.length > 0 && (
