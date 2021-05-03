@@ -165,14 +165,14 @@ const AddMoment: React.FC = () => {
                                 />
                             </IonItem>
                         ))}
-                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
                             <IonButton
                                 slot="end"
                                 size="small"
                                 fill="outline"
                                 onClick={() => moment.gratefulItems.merge([''])}
                             >
-                                add
+                                +1
                             </IonButton>
                         </div>
                     </IonItemGroup>
