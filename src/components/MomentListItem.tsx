@@ -13,24 +13,22 @@ const colorMaps: ColorObject[] = [
     { percentage: 1, color: { r: 56, g: 128, b: 255 } },
 ];
 
-const momentListItem: React.FC<{
+const MomentListItem: React.FC<{
     moment: Moment;
     deleteCallBack?: () => void;
     clickHandler?: () => void;
     currentItemIndex: number;
 }> = (props) => {
     const state = useState(globalStore);
-    const isItemExpanded = useState(false);
+    const isItemExpanded = state.currentOpenMomentId.get() === props.currentItemIndex;
 
-    const itemClickHandler = (itemState: State<boolean>, globalStore: State<GlobalStore>) => {
-        const currentTabItem = globalStore.currentTabItemOpen;
+    const itemClickHandler = (globalStore: State<GlobalStore>) => {
+        const currentTabItem = globalStore.currentOpenMomentId;
         const localComponentIndex = props.currentItemIndex;
 
         if (currentTabItem.get() !== localComponentIndex) {
-            itemState.set(true);
             currentTabItem.set(props.currentItemIndex);
         } else {
-            itemState.set(false);
             currentTabItem.set(null);
         }
     };
@@ -38,19 +36,13 @@ const momentListItem: React.FC<{
     return (
         <>
             <IonItemSliding>
-                <IonItem onClick={() => itemClickHandler(isItemExpanded, state)}>
+                <IonItem onClick={() => itemClickHandler(state)}>
                     <IonLabel>
                         <h2> {props.moment.title}</h2>
                         <p> {props.moment.description}</p>
                     </IonLabel>
 
-                    <IonIcon
-                        icon={
-                            state.currentTabItemOpen.get() === props.currentItemIndex
-                                ? chevronUpOutline
-                                : chevronDownOutline
-                        }
-                    />
+                    <IonIcon icon={isItemExpanded ? chevronUpOutline : chevronDownOutline} />
 
                     <IonNote
                         slot="end"
@@ -70,11 +62,9 @@ const momentListItem: React.FC<{
                     </IonItemOption>
                 </IonItemOptions>
             </IonItemSliding>
-            {state.currentTabItemOpen.get() === props.currentItemIndex
-                ? ExpandedMomentListItem({ moment: props.moment })
-                : null}
+            {isItemExpanded ? ExpandedMomentListItem({ moment: props.moment }) : null}
         </>
     );
 };
 
-export default momentListItem;
+export default MomentListItem;

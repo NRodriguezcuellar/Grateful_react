@@ -30,13 +30,13 @@ const ExpandedItem: React.FC<{ moment: Moment }> = (props) => {
             <IonCardContent>
                 {props.moment.description !== '' && (
                     <>
-                        <IonItemDivider style={{ paddingBottom: '1rem' }}>Moment</IonItemDivider>
+                        <IonItemDivider style={{ margin: '1rem 0' }}>Moment</IonItemDivider>
                         <p style={{ fontWeight: 400, padding: '0 0 2rem 0.5rem' }}>{props.moment.description}</p>{' '}
                     </>
                 )}
                 {props.moment.gratefulItems.length > 0 && (
                     <>
-                        <IonItemDivider style={{ paddingBottom: '1rem' }}>Gratefuls</IonItemDivider>
+                        <IonItemDivider style={{ margin: '1rem 0' }}>Gratefuls</IonItemDivider>
                         <IonList>
                             {props.moment.gratefulItems.map((gratefulItem, index) => (
                                 <IonItem key={index} lines="full">

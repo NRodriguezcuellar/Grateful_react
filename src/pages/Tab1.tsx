@@ -6,12 +6,13 @@ import { useState } from '@hookstate/core';
 import globalStore from '../stores/global';
 import MomentListItem from '../components/MomentListItem';
 import useMoment from '../custom-hooks/useMoment';
+import AggregatedMoments from '../components/MomentsAggregratedByTime';
 
 const emptyState = { fontWeight: 400, margin: '1rem auto', width: '100%', paddingLeft: '1.3rem' };
 
 const Tab1: React.FC = () => {
     const state = useState(globalStore);
-    const datePeriodState = useState('month');
+    const datePeriodState = useState('week');
     const { deleteMoment } = useMoment(state);
 
     const moments = () => {
@@ -47,7 +48,7 @@ const Tab1: React.FC = () => {
                         <IonSegmentButton value="week"> Week</IonSegmentButton>
                     </IonSegment>
 
-                    {moments()}
+                    <AggregatedMoments aggregrationType={datePeriodState.get()} moments={state.moments.get()} />
                 </IonList>
             </IonContent>
         </IonPage>

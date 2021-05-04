@@ -72,7 +72,7 @@ const deleteMoment = (store: State<GlobalStore>, idToDelete: Moment['id']) => {
     }
 
     if (!moments.length) {
-        store.currentTabItemOpen.set(null);
+        store.currentOpenMomentId.set(null);
     }
 };
 

@@ -8,8 +8,14 @@ export interface GlobalStore {
         lastUpdatedAt: null | string;
     };
     moments: Moment[];
-    currentTabItemOpen: number | null;
+    currentOpenMomentId: MomentDropdownState;
+    currentOpenYearId: MomentDropdownState;
+    currentOpenMonthId: MomentDropdownState;
+    currentOpenWeekId: MomentDropdownState;
+    currentOpenDayId: MomentDropdownState;
 }
+
+export type MomentDropdownState = number | null;
 
 const globalStore = createState<GlobalStore>({
     dailyMomentStatus: {
@@ -17,7 +23,11 @@ const globalStore = createState<GlobalStore>({
         lastUpdatedAt: null,
     },
     moments: [],
-    currentTabItemOpen: null,
+    currentOpenMomentId: null,
+    currentOpenYearId: null,
+    currentOpenMonthId: null,
+    currentOpenWeekId: null,
+    currentOpenDayId: null,
 });
 
 globalStore.attach(Persistence('GratefulStorage'));
