@@ -4,8 +4,6 @@ import '../assets/styles/Tab1.css';
 import TheHeader from '../components/TheHeader';
 import { useState } from '@hookstate/core';
 import globalStore from '../stores/global';
-import MomentListItem from '../components/MomentListItem';
-import useMoment from '../custom-hooks/useMoment';
 import AggregatedMoments from '../components/MomentsAggregratedByTime';
 
 const emptyState = { fontWeight: 400, margin: '1rem auto', width: '100%', paddingLeft: '1.3rem' };
@@ -13,19 +11,11 @@ const emptyState = { fontWeight: 400, margin: '1rem auto', width: '100%', paddin
 const Tab1: React.FC = () => {
     const state = useState(globalStore);
     const datePeriodState = useState('week');
-    const { deleteMoment } = useMoment(state);
 
     const moments = () => {
         const moments = state.moments.get();
         if (moments.length) {
-            return moments.map((moment) => (
-                <MomentListItem
-                    moment={moment}
-                    deleteCallBack={() => deleteMoment(moment.id)}
-                    key={moment.id}
-                    currentItemIndex={moment.id}
-                />
-            ));
+            return <AggregatedMoments aggregrationType={datePeriodState.get()} moments={state.moments.get()} />;
         } else {
             return <h6 style={emptyState}>No Moments added yet!</h6>;
         }
@@ -48,7 +38,7 @@ const Tab1: React.FC = () => {
                         <IonSegmentButton value="week"> Week</IonSegmentButton>
                     </IonSegment>
 
-                    <AggregatedMoments aggregrationType={datePeriodState.get()} moments={state.moments.get()} />
+                    {moments()}
                 </IonList>
             </IonContent>
         </IonPage>

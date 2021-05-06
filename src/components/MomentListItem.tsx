@@ -6,6 +6,7 @@ import { State, useState } from '@hookstate/core';
 import globalStore, { GlobalStore } from '../stores/global';
 import ExpandedMomentListItem from './ExpandedMomentListItem';
 import { ColorObject, getColorForPercentage } from '../helpers/general';
+import useMoment from '../custom-hooks/useMoment';
 
 const colorMaps: ColorObject[] = [
     { percentage: 0, color: { r: 255, g: 196, b: 9 } },
@@ -15,12 +16,12 @@ const colorMaps: ColorObject[] = [
 
 const MomentListItem: React.FC<{
     moment: Moment;
-    deleteCallBack?: () => void;
     clickHandler?: () => void;
     currentItemIndex: number;
 }> = (props) => {
     const state = useState(globalStore);
     const isItemExpanded = state.currentOpenMomentId.get() === props.currentItemIndex;
+    const { deleteMoment } = useMoment(state);
 
     const itemClickHandler = (globalStore: State<GlobalStore>) => {
         const currentTabItem = globalStore.currentOpenMomentId;
@@ -57,7 +58,7 @@ const MomentListItem: React.FC<{
                 </IonItem>
 
                 <IonItemOptions side="end">
-                    <IonItemOption color="danger" onClick={props.deleteCallBack}>
+                    <IonItemOption color="danger" onClick={() => deleteMoment(props.moment.id)}>
                         <IonIcon slot="icon-only" icon={trashOutline} />
                     </IonItemOption>
                 </IonItemOptions>
