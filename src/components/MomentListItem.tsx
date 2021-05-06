@@ -59,6 +59,7 @@ const MomentListItem: React.FC<{
                     </IonLabel>
 
                     <IonNote
+                        slot="end"
                         style={{
                             fontSize: '1.2rem',
                             color: getColorForPercentage(props.moment.moodScale / 10, colorMaps),
