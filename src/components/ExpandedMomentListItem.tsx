@@ -31,7 +31,7 @@ const ExpandedItem: React.FC<{ moment: Moment }> = (props) => {
                         {relativeDate}, {localeStringDateTime}
                     </IonCardSubtitle>
                     <IonCardSubtitle>
-                        {t('general:mood')}: {props.moment.moodScale}
+                        {t('add_moment:mood')}: {props.moment.moodScale}
                     </IonCardSubtitle>
                 </IonCardHeader>
                 <IonCardContent>
