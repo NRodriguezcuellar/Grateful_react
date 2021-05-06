@@ -37,7 +37,7 @@ const Homepage: React.FC = () => {
             <IonContent>
                 <IonList style={{ minHeight: '100%' }}>
                     <IonListHeader>
-                        <h1>Your moments</h1>
+                        <h1>{t('general:moment_list_title')}</h1>
                     </IonListHeader>
                     <IonSegment
                         value={timePeriodState.get()}
