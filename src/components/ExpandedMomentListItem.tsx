@@ -20,8 +20,8 @@ const ExpandedItem: React.FC<{ moment: Moment }> = (props) => {
 
     return (
         <IonCard>
-            <IonCardHeader>
-                <IonCardTitle>{props.moment.title}</IonCardTitle>
+            <IonCardHeader translucent={true}>
+                <IonCardTitle style={{ fontSize: '1.5rem' }}>{props.moment.title}</IonCardTitle>
                 <IonCardSubtitle>
                     {relativeDate}, {localeStringDateTime}
                 </IonCardSubtitle>
@@ -40,7 +40,7 @@ const ExpandedItem: React.FC<{ moment: Moment }> = (props) => {
                         <IonList>
                             {props.moment.gratefulItems.map((gratefulItem, index) => (
                                 <IonItem key={index} lines="full">
-                                    <IonLabel>{index}</IonLabel>
+                                    <IonLabel>{index + 1}</IonLabel>
                                     <p>{gratefulItem}</p>
                                 </IonItem>
                             ))}

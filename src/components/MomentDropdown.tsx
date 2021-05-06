@@ -28,10 +28,10 @@ const MomentDropdown: React.FC<{
 
         if (openTabItemId.get() !== localComponentIndex) {
             periodStates[props.periodKind].set(localComponentIndex);
-            setStateBasedOnPeriodKind(props.periodKind, true, periodStates);
+            setStateBasedOnPeriodKind(props.periodKind, true, state);
         } else {
             openTabItemId.set(null);
-            setStateBasedOnPeriodKind(props.periodKind, false, periodStates);
+            setStateBasedOnPeriodKind(props.periodKind, false, state);
         }
     };
     return (
