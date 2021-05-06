@@ -1,0 +1,18 @@
+.item-list-modal-wrapper {
+    --background: transparent !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100vh !important;
+    position: relative !important;
+}
+
+.item-list-modal-wrapper .ion-page{
+    display: flex !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
+    width:100% !important;
+
+
+
+}

@@ -1,12 +1,22 @@
-import React from 'react';
-import { IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonNote } from '@ionic/react';
+import React, { useRef } from 'react';
+import {
+    IonIcon,
+    IonItem,
+    IonItemOption,
+    IonItemOptions,
+    IonItemSliding,
+    IonLabel,
+    IonModal,
+    IonNote,
+} from '@ionic/react';
 import { Moment } from '../models/Moment';
-import { trashOutline, chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
+import { trashOutline, resizeOutline } from 'ionicons/icons';
 import { State, useState } from '@hookstate/core';
 import globalStore, { GlobalStore } from '../stores/global';
 import ExpandedMomentListItem from './ExpandedMomentListItem';
 import { ColorObject, getColorForPercentage } from '../helpers/general';
 import useMoment from '../custom-hooks/useMoment';
+import '../assets/styles/modal.css';
 
 const colorMaps: ColorObject[] = [
     { percentage: 0, color: { r: 255, g: 196, b: 9 } },
@@ -20,33 +30,35 @@ const MomentListItem: React.FC<{
     currentItemIndex: number;
 }> = (props) => {
     const state = useState(globalStore);
-    const isItemExpanded = state.currentOpenMomentId.get() === props.currentItemIndex;
+    const isItemExpanded = useState(false);
     const { deleteMoment } = useMoment(state);
+    const listItem = useRef<HTMLIonItemSlidingElement | null>(null);
 
-    const itemClickHandler = (globalStore: State<GlobalStore>) => {
-        const currentTabItem = globalStore.currentOpenMomentId;
-        const localComponentIndex = props.currentItemIndex;
-
-        if (currentTabItem.get() !== localComponentIndex) {
-            currentTabItem.set(props.currentItemIndex);
-        } else {
-            currentTabItem.set(null);
-        }
+    const itemClickHandler = () => {
+        return 'lol';
     };
 
     return (
         <>
-            <IonItemSliding>
-                <IonItem onClick={() => itemClickHandler(state)}>
+            <IonModal
+                isOpen={isItemExpanded.get()}
+                mode="ios"
+                cssClass={'item-list-modal-wrapper'}
+                swipeToClose={true}
+                onDidDismiss={() => isItemExpanded.set(false)}
+                showBackdrop={true}
+                presentingElement={listItem.current!}
+            >
+                <ExpandedMomentListItem moment={props.moment} />
+            </IonModal>
+            <IonItemSliding ref={listItem}>
+                <IonItem onClick={() => isItemExpanded.set((status) => !status)}>
                     <IonLabel>
                         <h2> {props.moment.title}</h2>
                         <p> {props.moment.description}</p>
                     </IonLabel>
 
-                    <IonIcon icon={isItemExpanded ? chevronUpOutline : chevronDownOutline} />
-
                     <IonNote
-                        slot="end"
                         style={{
                             fontSize: '1.2rem',
                             color: getColorForPercentage(props.moment.moodScale / 10, colorMaps),
@@ -55,6 +67,7 @@ const MomentListItem: React.FC<{
                     >
                         {props.moment.moodScale}
                     </IonNote>
+                    <IonIcon icon={resizeOutline} slot="end" />
                 </IonItem>
 
                 <IonItemOptions side="end">
@@ -63,7 +76,6 @@ const MomentListItem: React.FC<{
                     </IonItemOption>
                 </IonItemOptions>
             </IonItemSliding>
-            {isItemExpanded ? ExpandedMomentListItem({ moment: props.moment }) : null}
         </>
     );
 };

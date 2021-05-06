@@ -2,20 +2,22 @@ import { IonReactRouter } from '@ionic/react-router';
 import { IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
 import { Route, Redirect } from 'react-router-dom';
 import { addOutline, settingsOutline, homeOutline } from 'ionicons/icons';
-import React, { Suspense } from 'react';
+import React, { Suspense, useRef } from 'react';
 import LoadingScreen from '../pages/LoadingScreen';
 import Settings from '../pages/Settings';
 import AddMoment from '../pages/AddMoment';
 import Homepage from '../pages/Homepage';
 
 const router: React.FC = () => {
+    const routerRef = useRef<HTMLIonRouterOutletElement | null>(null);
+
     return (
         <IonReactRouter>
             <Suspense fallback={<LoadingScreen />}>
                 <IonTabs>
                     {/* here below are the routes */}
 
-                    <IonRouterOutlet>
+                    <IonRouterOutlet ref={routerRef}>
                         <Route exact path="/">
                             <Redirect to="/tab1" />
                         </Route>

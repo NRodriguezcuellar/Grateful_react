@@ -21,6 +21,7 @@ import { useHistory } from 'react-router';
 import { Moment } from '../models/Moment';
 import useMoment from '../custom-hooks/useMoment';
 import TheHeader from '../components/TheHeader';
+import { useTranslation } from 'react-i18next';
 
 const ParentDiv = styled.form`
     margin: auto auto;
@@ -55,6 +56,7 @@ const hidden = { visibility: 'hidden' };
 
 const AddMoment: React.FC = () => {
     const router = useHistory();
+    const { t } = useTranslation(['add_moment']);
     const state = useState(globalStore);
     const labelInput = useState<string>('');
     const moment = useState<Moment>({
@@ -67,6 +69,8 @@ const AddMoment: React.FC = () => {
         updatedAt: '',
         gratefulItems: [''],
     });
+
+    console.log(t('save'));
 
     const { labelHandler, momentHandler, skipHandler } = useMoment(state);
 
@@ -81,24 +85,24 @@ const AddMoment: React.FC = () => {
                     }}
                 >
                     <IonItemGroup>
-                        <Title>How are you feeling today?</Title>
+                        <Title>{t('page_title')}</Title>
 
                         <IonItemDivider>
                             <IonLabel> Moment </IonLabel>
                         </IonItemDivider>
                         <InputItem>
-                            <IonLabel position="floating">Title</IonLabel>
+                            <IonLabel position="floating">{t('title')}</IonLabel>
                             <IonInput
-                                placeholder="Today was..."
+                                placeholder={t('title_placeholder')}
                                 required
                                 value={moment.title.get()}
                                 onIonChange={(event) => moment.title.set(event.detail.value!.toString())}
                             />
                         </InputItem>
                         <InputItem>
-                            <IonLabel position="floating">Description</IonLabel>
+                            <IonLabel position="floating">{t('description')}</IonLabel>
                             <IonTextarea
-                                placeholder="Describe your moment further"
+                                placeholder={t('description_placeholder')}
                                 value={moment.description.get()}
                                 autoGrow={true}
                                 onIonChange={(event) => moment.description.set(event.detail.value!.toString())}
@@ -106,7 +110,7 @@ const AddMoment: React.FC = () => {
                         </InputItem>
 
                         <InputItem lines="none">
-                            <IonLabel>Mood </IonLabel>
+                            <IonLabel>{t('mood')} </IonLabel>
                             <IonRange
                                 min={0}
                                 max={10}
@@ -159,7 +163,7 @@ const AddMoment: React.FC = () => {
                                 <IonLabel>{index + 1}</IonLabel>
                                 <IonInput
                                     key={index}
-                                    placeholder="Today i was grateful for.."
+                                    placeholder={t('grateful_item_placeholder')}
                                     value={gratefulItem.get()}
                                     onIonChange={(input) => gratefulItem.set(input.detail.value!.toString())}
                                 />
@@ -180,9 +184,8 @@ const AddMoment: React.FC = () => {
                     </IonItemGroup>
 
                     <ButtonsContainer>
-                        <IonButton onClick={() => skipHandler(() => router.push('/'))}>Cancel</IonButton>
-
-                        <AddButton type="submit">Save</AddButton>
+                        <IonButton onClick={() => skipHandler(() => router.push('/'))}>{t('general:cancel')}</IonButton>
+                        <AddButton type="submit">{t('general:save')}</AddButton>
                     </ButtonsContainer>
                 </ParentDiv>
             </IonContent>

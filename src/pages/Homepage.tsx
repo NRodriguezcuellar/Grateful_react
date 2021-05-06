@@ -7,12 +7,14 @@ import globalStore from '../stores/global';
 import AggregatedMoments from '../components/MomentsAggregratedByTime';
 import { setStateBasedOnPeriodKind } from '../helpers/state';
 import { PeriodKind } from '../components/MomentDropdown';
+import { useTranslation } from 'react-i18next';
 
 const emptyState = { fontWeight: 400, margin: '1rem auto', width: '100%', paddingLeft: '1.3rem' };
 
 const Homepage: React.FC = () => {
     const state = useState(globalStore);
     const timePeriodState = useState<PeriodKind>('week');
+    const { t } = useTranslation(['general']);
 
     const moments = () => {
         const moments = state.moments.get();
@@ -41,9 +43,9 @@ const Homepage: React.FC = () => {
                         value={timePeriodState.get()}
                         onIonChange={(event) => timePeriodClickHandler(event.detail.value!, timePeriodState)}
                     >
-                        <IonSegmentButton value="year"> Year</IonSegmentButton>
-                        <IonSegmentButton value="month">Month</IonSegmentButton>
-                        <IonSegmentButton value="week"> Week</IonSegmentButton>
+                        <IonSegmentButton value="year"> {t('year')}</IonSegmentButton>
+                        <IonSegmentButton value="month">{t('month')}</IonSegmentButton>
+                        <IonSegmentButton value="week"> {t('week')}</IonSegmentButton>
                     </IonSegment>
 
                     {moments()}
