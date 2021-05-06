@@ -14,6 +14,7 @@ import {
     IonBackdrop,
 } from '@ionic/react';
 import { useTranslation } from 'react-i18next';
+import '../assets/styles/expandedListItem.css';
 
 const ExpandedItem: React.FC<{ moment: Moment }> = (props) => {
     const { t } = useTranslation();
@@ -23,7 +24,7 @@ const ExpandedItem: React.FC<{ moment: Moment }> = (props) => {
 
     return (
         <>
-            <IonCard>
+            <IonCard className="expanded-list-item">
                 <IonCardHeader translucent={true}>
                     <IonCardTitle style={{ fontSize: '1.5rem' }}>{props.moment.title}</IonCardTitle>
                     <IonCardSubtitle>
@@ -57,7 +58,7 @@ const ExpandedItem: React.FC<{ moment: Moment }> = (props) => {
                     )}
                 </IonCardContent>
             </IonCard>
-            <IonBackdrop visible={false} />
+            <IonBackdrop visible={true} />
         </>
     );
 };
