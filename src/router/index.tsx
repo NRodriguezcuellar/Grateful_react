@@ -2,8 +2,11 @@ import { IonReactRouter } from '@ionic/react-router';
 import { IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
 import { Route, Redirect } from 'react-router-dom';
 import { addOutline, settingsOutline, homeOutline } from 'ionicons/icons';
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import LoadingScreen from '../pages/LoadingScreen';
+import Settings from '../pages/Settings';
+import AddMoment from '../pages/AddMoment';
+import Homepage from '../pages/Homepage';
 
 const router: React.FC = () => {
     return (
@@ -16,10 +19,10 @@ const router: React.FC = () => {
                         <Route exact path="/">
                             <Redirect to="/tab1" />
                         </Route>
-                        <Route path="/tab1" component={lazy(() => import('../pages/Tab1'))} />
+                        <Route path="/tab1" component={Homepage} />
 
-                        <Route path="/settings" component={lazy(() => import('../pages/Settings'))} />
-                        <Route path="/addMoment" component={lazy(() => import('../pages/AddMoment'))} />
+                        <Route path="/settings" component={Settings} />
+                        <Route path="/addMoment" component={AddMoment} />
                     </IonRouterOutlet>
 
                     {/* here below is the footer */}

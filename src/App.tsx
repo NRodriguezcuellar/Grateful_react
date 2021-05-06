@@ -22,12 +22,13 @@ import { Settings } from 'luxon';
 
 /* Theme variables */
 import './theme/variables.css';
-import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
+import globalStore from './stores/global';
+
+i18n.changeLanguage(globalStore.locale.get());
+Settings.defaultLocale = i18n.language;
 
 const App: React.FC = () => {
-    const { i18n } = useTranslation();
-    Settings.defaultLocale = i18n.language;
-
     return (
         <IonApp>
             <RouterView />

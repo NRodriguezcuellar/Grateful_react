@@ -29,7 +29,7 @@ const globalStore = createState<GlobalStore>({
     currentOpenMonthId: null,
     currentOpenWeekId: null,
     currentOpenDayId: null,
-    locale: 'fr',
+    locale: 'nl',
 });
 
 globalStore.attach(Persistence('GratefulStorage'));

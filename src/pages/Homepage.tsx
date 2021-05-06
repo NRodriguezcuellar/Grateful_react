@@ -10,7 +10,7 @@ import { PeriodKind } from '../components/MomentDropdown';
 
 const emptyState = { fontWeight: 400, margin: '1rem auto', width: '100%', paddingLeft: '1.3rem' };
 
-const Tab1: React.FC = () => {
+const Homepage: React.FC = () => {
     const state = useState(globalStore);
     const timePeriodState = useState<PeriodKind>('week');
 
@@ -53,4 +53,4 @@ const Tab1: React.FC = () => {
     );
 };
 
-export default Tab1;
+export default Homepage;

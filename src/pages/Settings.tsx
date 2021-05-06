@@ -2,11 +2,17 @@ import { IonContent, IonList, IonPage, IonItem, IonLabel, IonSelect, IonSelectOp
 import React from 'react';
 import TheHeader from '../components/TheHeader';
 import { useTranslation } from 'react-i18next';
+import { Settings as DateTimeSettings } from 'luxon';
+import globalStore from '../stores/global';
 
 const Settings: React.FC = () => {
-    const { t, i18n } = useTranslation();
+    const { i18n } = useTranslation();
 
-    console.log(t('hello'));
+    const languageSelectHandler = async (language: string) => {
+        await i18n.changeLanguage(language);
+        DateTimeSettings.defaultLocale = i18n.language;
+        globalStore.locale.set(language);
+    };
 
     return (
         <IonPage>
@@ -15,7 +21,7 @@ const Settings: React.FC = () => {
                 <IonList>
                     <IonItem>
                         <IonLabel>Locale</IonLabel>
-                        <IonSelect value={i18n.language} onIonChange={(e) => i18n.changeLanguage(e.detail.value!)}>
+                        <IonSelect value={i18n.language} onIonChange={(e) => languageSelectHandler(e.detail.value!)}>
                             <IonSelectOption value="nl">Nederlands</IonSelectOption>
                             <IonSelectOption value="en">English</IonSelectOption>
                         </IonSelect>
