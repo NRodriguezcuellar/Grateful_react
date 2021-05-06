@@ -1,9 +1,5 @@
 import { IonApp } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { Route, Redirect } from 'react-router-dom';
-import { useState } from '@hookstate/core';
-import { DateTime } from 'luxon';
-import React from 'react';
+import React, { useEffect } from 'react';
 import RouterView from './router';
 
 /* Core CSS required for Ionic components to work properly */
@@ -24,8 +20,17 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { Settings } from 'luxon';
+import globalStore from './stores/global';
+import { useState } from '@hookstate/core';
 
 const App: React.FC = () => {
+    const locale = useState(globalStore.locale);
+
+    useEffect(() => {
+        Settings.defaultLocale = locale.get();
+    }, [locale]);
+
     return (
         <IonApp>
             <RouterView />

@@ -18,7 +18,7 @@ const router: React.FC = () => {
                         </Route>
                         <Route path="/tab1" component={lazy(() => import('../pages/Tab1'))} />
 
-                        <Route path="/tab2" component={lazy(() => import('../pages/Tab2'))} />
+                        <Route path="/settings" component={lazy(() => import('../pages/Settings'))} />
                         <Route path="/addMoment" component={lazy(() => import('../pages/AddMoment'))} />
                     </IonRouterOutlet>
 
@@ -31,7 +31,7 @@ const router: React.FC = () => {
                         <IonTabButton tab="addMoment" href="/addMoment">
                             <IonIcon icon={addOutline} />
                         </IonTabButton>
-                        <IonTabButton tab="tab2" href="/tab2">
+                        <IonTabButton tab="settings" href="/settings">
                             <IonIcon icon={settingsOutline} />
                         </IonTabButton>
                     </IonTabBar>

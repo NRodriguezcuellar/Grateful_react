@@ -12,8 +12,6 @@ import {
     IonContent,
     IonItemGroup,
     IonItemDivider,
-    IonSegment,
-    IonSegmentButton,
 } from '@ionic/react';
 import { happyOutline, sadOutline, addOutline } from 'ionicons/icons';
 import { useState } from '@hookstate/core';
@@ -175,7 +173,8 @@ const AddMoment: React.FC = () => {
                                 fill="outline"
                                 onClick={() => moment.gratefulItems.merge([''])}
                             >
-                                +1
+                                <IonIcon icon={addOutline} />
+                                <span>1</span>
                             </IonButton>
                         </div>
                     </IonItemGroup>

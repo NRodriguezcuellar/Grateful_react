@@ -13,6 +13,7 @@ export interface GlobalStore {
     currentOpenMonthId: MomentDropdownState;
     currentOpenWeekId: MomentDropdownState;
     currentOpenDayId: MomentDropdownState;
+    locale: string;
 }
 
 export type MomentDropdownState = number | null;
@@ -28,6 +29,7 @@ const globalStore = createState<GlobalStore>({
     currentOpenMonthId: null,
     currentOpenWeekId: null,
     currentOpenDayId: null,
+    locale: 'fr',
 });
 
 globalStore.attach(Persistence('GratefulStorage'));

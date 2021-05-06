@@ -82,6 +82,7 @@ const useMoment = (store: State<GlobalStore>) => {
         momentHandler: (moment: State<Moment>, routeCallBack: any) => momentHandler(store, moment, routeCallBack),
         skipHandler: (routeCallBack?: any) => skipHandler(store, routeCallBack),
         deleteMoment: (idToDelete: Moment['id']) => deleteMoment(store, idToDelete),
+        pushMoment: (moment: State<Moment>) => pushNewMoment(moment, store),
     };
 };
 
