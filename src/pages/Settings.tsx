@@ -1,22 +1,21 @@
 import { IonContent, IonList, IonPage, IonItem, IonLabel, IonSelect, IonSelectOption } from '@ionic/react';
 import React from 'react';
 import TheHeader from '../components/TheHeader';
-import { useState } from '@hookstate/core';
-import globalStore from '../stores/global';
+import { useTranslation } from 'react-i18next';
 
 const Settings: React.FC = () => {
-    const locale = useState(globalStore.locale);
+    const { t, i18n } = useTranslation();
+
+    console.log(t('hello'));
 
     return (
         <IonPage>
             <TheHeader />
             <IonContent fullscreen>
-                settings
                 <IonList>
                     <IonItem>
                         <IonLabel>Locale</IonLabel>
-                        <IonSelect value={locale.get()} onIonChange={(e) => locale.set(e.detail.value!)}>
-                            <IonSelectOption value="fr">Français</IonSelectOption>
+                        <IonSelect value={i18n.language} onIonChange={(e) => i18n.changeLanguage(e.detail.value!)}>
                             <IonSelectOption value="nl">Nederlands</IonSelectOption>
                             <IonSelectOption value="en">English</IonSelectOption>
                         </IonSelect>

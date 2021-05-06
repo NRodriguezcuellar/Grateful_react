@@ -17,19 +17,16 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
+import './i18n';
+import { Settings } from 'luxon';
 
 /* Theme variables */
 import './theme/variables.css';
-import { Settings } from 'luxon';
-import globalStore from './stores/global';
-import { useState } from '@hookstate/core';
+import { useTranslation } from 'react-i18next';
 
 const App: React.FC = () => {
-    const locale = useState(globalStore.locale);
-
-    useEffect(() => {
-        Settings.defaultLocale = locale.get();
-    }, [locale]);
+    const { i18n } = useTranslation();
+    Settings.defaultLocale = i18n.language;
 
     return (
         <IonApp>
