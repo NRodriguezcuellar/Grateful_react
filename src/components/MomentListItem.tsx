@@ -11,8 +11,8 @@ import {
 } from '@ionic/react';
 import { Moment } from '../models/Moment';
 import { trashOutline, resizeOutline } from 'ionicons/icons';
-import { State, useState } from '@hookstate/core';
-import globalStore, { GlobalStore } from '../stores/global';
+import { useState } from '@hookstate/core';
+import globalStore from '../stores/global';
 import ExpandedMomentListItem from './ExpandedMomentListItem';
 import { ColorObject, getColorForPercentage } from '../helpers/general';
 import useMoment from '../custom-hooks/useMoment';
