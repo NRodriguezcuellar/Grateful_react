@@ -36,7 +36,13 @@ const MomentListItem: React.FC<{
 
     return (
         <>
-            <IonModal isOpen={isItemExpanded.get()} mode="ios" cssClass={'item-list-modal-wrapper'} swipeToClose={true}>
+            <IonModal
+                isOpen={isItemExpanded.get()}
+                mode="ios"
+                cssClass={'item-list-modal-wrapper'}
+                swipeToClose={true}
+                onDidDismiss={() => isItemExpanded.set(false)}
+            >
                 <ExpandedMomentListItem moment={props.moment} />
             </IonModal>
             <IonItemSliding ref={listItem}>
