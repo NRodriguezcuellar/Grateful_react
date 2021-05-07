@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 interface ColorObject {
     percentage: number;
     color: { r: number; g: number; b: number };
@@ -26,5 +28,10 @@ const getColorForPercentage = function (percentageValue: number, arrayOfColors: 
     // or output as hex if preferred
 };
 
+const checkIfCurrentWeek = (year: number, month: number, week: number) => {
+    const currentTime = DateTime.local();
+    return currentTime.year === year && currentTime.month === month && currentTime.weekNumber === week;
+};
+
 export type { ColorObject };
-export { getColorForPercentage };
+export { getColorForPercentage, checkIfCurrentWeek };

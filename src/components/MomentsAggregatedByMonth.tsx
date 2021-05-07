@@ -4,8 +4,11 @@ import MomentDropdown from './MomentDropdown';
 import { DateTime } from 'luxon';
 import MomentListItem from './MomentListItem';
 import { AggregatedMonthWithYear } from '../models/Moment';
+import { checkIfCurrentWeek } from '../helpers/general';
+import { useTranslation } from 'react-i18next';
 
 const MomentsAggregatedByMonth: React.FC<{ moments: AggregatedMonthWithYear[] }> = (props) => {
+    const { t } = useTranslation();
     return (
         <>
             {props.moments.map((month) => (
@@ -22,7 +25,11 @@ const MomentsAggregatedByMonth: React.FC<{ moments: AggregatedMonthWithYear[] }>
                             key={week.week}
                             periodKind={'week'}
                             currentId={week.week}
-                            label={`Week ${week.week}`}
+                            label={
+                                checkIfCurrentWeek(month.year, month.month, week.week)
+                                    ? t('this_week')
+                                    : `Week ${week.week}`
+                            }
                         >
                             {week.days.map((day) => (
                                 <MomentDropdown
