@@ -35,27 +35,20 @@ const ExpandedItem: React.FC<{ moment: Moment }> = (props) => {
                     </IonCardSubtitle>
                 </IonCardHeader>
                 <IonCardContent>
-                    {props.moment.description !== '' && (
-                        <>
-                            <IonItemDivider style={{ margin: '1rem 0' }}>Moment</IonItemDivider>
-                            <p style={{ fontWeight: 400, padding: '0 0 2rem 0.5rem' }}>
-                                {props.moment.description}
-                            </p>{' '}
-                        </>
-                    )}
-                    {props.moment.gratefulItems.length > 0 && (
-                        <>
-                            <IonItemDivider style={{ margin: '1rem 0' }}>Gratefuls</IonItemDivider>
-                            <IonList>
-                                {props.moment.gratefulItems.map((gratefulItem, index) => (
-                                    <IonItem key={index} lines="full">
-                                        <IonLabel>{index + 1}</IonLabel>
-                                        <p>{gratefulItem}</p>
-                                    </IonItem>
-                                ))}
-                            </IonList>
-                        </>
-                    )}
+                    <>
+                        <IonItemDivider style={{ margin: '1rem 0' }}>Moment</IonItemDivider>
+                        <p style={{ fontWeight: 400, padding: '0 0 2rem 0.5rem' }}>{props.moment.description}</p>{' '}
+                    </>
+
+                    <IonItemDivider style={{ margin: '1rem 0' }}>Gratefuls</IonItemDivider>
+                    <IonList>
+                        {props.moment.gratefulItems.map((gratefulItem, index) => (
+                            <IonItem key={index} lines="full">
+                                <IonLabel>{index + 1}</IonLabel>
+                                <p>{gratefulItem}</p>
+                            </IonItem>
+                        ))}
+                    </IonList>
                 </IonCardContent>
             </IonCard>
             <IonBackdrop visible={true} />

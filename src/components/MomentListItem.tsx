@@ -34,10 +34,6 @@ const MomentListItem: React.FC<{
     const { deleteMoment } = useMoment(state);
     const listItem = useRef<HTMLIonItemSlidingElement | null>(null);
 
-    const itemClickHandler = () => {
-        return 'lol';
-    };
-
     return (
         <>
             <IonModal
@@ -46,8 +42,6 @@ const MomentListItem: React.FC<{
                 cssClass={'item-list-modal-wrapper'}
                 swipeToClose={true}
                 onDidDismiss={() => isItemExpanded.set(false)}
-                showBackdrop={true}
-                presentingElement={listItem.current!}
             >
                 <ExpandedMomentListItem moment={props.moment} />
             </IonModal>
