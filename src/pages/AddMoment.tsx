@@ -109,11 +109,15 @@ const AddMoment: React.FC = () => {
                             />
                         </InputItem>
 
-                        <InputItem lines="none">
+                        <InputItem
+                            lines="none"
+                            style={{ display: 'flex', alignItems: 'center', paddingBottom: '0.5rem' }}
+                        >
                             <IonLabel>{t('mood')} </IonLabel>
                             <IonRange
                                 min={0}
                                 max={10}
+                                style={{ paddingBottom: '23px' }}
                                 pin={true}
                                 step={1}
                                 ticks={true}
@@ -160,9 +164,11 @@ const AddMoment: React.FC = () => {
 
                         {moment.gratefulItems.map((gratefulItem, index) => (
                             <IonItem key={index}>
-                                <IonLabel>{index + 1}</IonLabel>
-                                <IonInput
+                                <IonLabel position="stacked">{index + 1}</IonLabel>
+                                <IonTextarea
                                     key={index}
+                                    autoGrow={true}
+                                    rows={1}
                                     placeholder={t('grateful_item_placeholder')}
                                     value={gratefulItem.get()}
                                     onIonChange={(input) => gratefulItem.set(input.detail.value!.toString())}
