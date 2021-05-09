@@ -4,7 +4,7 @@ import MomentDropdown from './MomentDropdown';
 import { DateTime } from 'luxon';
 import MomentListItem from './MomentListItem';
 import { AggregatedWeekWithYear } from '../models/Moment';
-import { checkIfCurrentWeek } from '../helpers/general';
+import { concatenateAndParse, returnWeekLabel } from '../helpers/general';
 import { useTranslation } from 'react-i18next';
 
 const MomentsAggregatedByWeek: React.FC<{ moments: AggregatedWeekWithYear[] }> = (props) => {
@@ -13,22 +13,18 @@ const MomentsAggregatedByWeek: React.FC<{ moments: AggregatedWeekWithYear[] }> =
         <>
             {props.moments.map((currentWeek) => (
                 <MomentDropdown
-                    level={1}
-                    key={currentWeek.week}
+                    level={3}
+                    key={concatenateAndParse(currentWeek.week, currentWeek.year)}
                     periodKind={'week'}
-                    currentId={currentWeek.week}
-                    label={
-                        checkIfCurrentWeek(currentWeek.year, currentWeek.month, currentWeek.week)
-                            ? t('this_week')
-                            : `Week ${currentWeek.week}`
-                    }
+                    currentId={concatenateAndParse(currentWeek.week, currentWeek.year)}
+                    label={returnWeekLabel(currentWeek.year, currentWeek.month, currentWeek.week, t('this_week'), true)}
                 >
                     {currentWeek.days.map((day) => (
                         <MomentDropdown
-                            level={1}
-                            key={day.day}
+                            level={3}
+                            key={concatenateAndParse(currentWeek.week, currentWeek.year, day.day)}
                             periodKind={'day'}
-                            currentId={day.day}
+                            currentId={concatenateAndParse(currentWeek.week, currentWeek.year, day.day)}
                             label={DateTime.fromObject({
                                 day: day.day,
                                 year: currentWeek.year,

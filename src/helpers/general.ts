@@ -32,6 +32,37 @@ const checkIfCurrentWeek = (year: number, month: number, week: number) => {
     const currentTime = DateTime.local();
     return currentTime.year === year && currentTime.month === month && currentTime.weekNumber === week;
 };
+const checkIfCurrentMonth = (year: number, month: number) => {
+    const currentTime = DateTime.local();
+    return currentTime.year === year && currentTime.month === month;
+};
+
+const returnWeekLabel = (year: number, month: number, week: number, translation: string, showYear = false) => {
+    const currentYear = DateTime.local().year;
+    if (checkIfCurrentWeek(year, month, week)) {
+        return translation + ` (${week})`;
+    } else {
+        return `week ${week}${showYear && year !== currentYear ? `, ${year}` : ''}`;
+    }
+};
+
+const returnMonthLabel = (year: number, month: number, translation: string, showYear = false) => {
+    const monthString = DateTime.fromObject({ month: month, year: year }).toFormat('MMM');
+    const currentYear = DateTime.local().year;
+    if (checkIfCurrentMonth(year, month)) {
+        return translation + ` (${monthString})`;
+    } else {
+        return `${monthString}${showYear && year !== currentYear ? ` ${year}` : ''}`;
+    }
+};
+
+const concatenateAndParse = (...numbers: number[]) => {
+    let finalstring = '';
+
+    numbers.forEach((number) => (finalstring += number.toString()));
+
+    return parseInt(finalstring);
+};
 
 export type { ColorObject };
-export { getColorForPercentage, checkIfCurrentWeek };
+export { getColorForPercentage, checkIfCurrentWeek, returnWeekLabel, returnMonthLabel, concatenateAndParse };

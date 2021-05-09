@@ -95,6 +95,7 @@ const AddMoment: React.FC = () => {
                             <IonInput
                                 placeholder={t('title_placeholder')}
                                 required
+                                autofocus={true}
                                 value={moment.title.get()}
                                 onIonChange={(event) => moment.title.set(event.detail.value!.toString())}
                             />

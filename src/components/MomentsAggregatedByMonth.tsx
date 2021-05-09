@@ -4,7 +4,7 @@ import MomentDropdown from './MomentDropdown';
 import { DateTime } from 'luxon';
 import MomentListItem from './MomentListItem';
 import { AggregatedMonthWithYear } from '../models/Moment';
-import { checkIfCurrentWeek } from '../helpers/general';
+import { concatenateAndParse, returnMonthLabel, returnWeekLabel } from '../helpers/general';
 import { useTranslation } from 'react-i18next';
 
 const MomentsAggregatedByMonth: React.FC<{ moments: AggregatedMonthWithYear[] }> = (props) => {
@@ -13,33 +13,30 @@ const MomentsAggregatedByMonth: React.FC<{ moments: AggregatedMonthWithYear[] }>
         <>
             {props.moments.map((month) => (
                 <MomentDropdown
-                    level={1}
-                    key={month.month}
+                    level={3}
+                    key={concatenateAndParse(month.month, month.year)}
                     periodKind={'month'}
-                    currentId={month.month}
-                    label={`${DateTime.fromObject({ month: month.month }).toFormat('MMM')} ${month.year}`}
+                    currentId={concatenateAndParse(month.month, month.year)}
+                    label={returnMonthLabel(month.year, month.month, t('this_month'), true)}
                 >
                     {month.weeks.map((week) => (
                         <MomentDropdown
-                            level={1}
-                            key={week.week}
+                            level={3}
+                            key={concatenateAndParse(week.week, month.year)}
                             periodKind={'week'}
-                            currentId={week.week}
-                            label={
-                                checkIfCurrentWeek(month.year, month.month, week.week)
-                                    ? t('this_week')
-                                    : `Week ${week.week}`
-                            }
+                            currentId={concatenateAndParse(week.week, month.year)}
+                            label={returnWeekLabel(month.year, month.month, week.week, t('this_week'))}
                         >
                             {week.days.map((day) => (
                                 <MomentDropdown
-                                    level={1}
-                                    key={day.day}
+                                    level={3}
+                                    key={concatenateAndParse(week.week, month.year, day.day)}
                                     periodKind={'day'}
-                                    currentId={day.day}
+                                    currentId={concatenateAndParse(week.week, month.year, day.day)}
                                     label={DateTime.fromObject({
                                         day: day.day,
                                         month: month.month,
+                                        year: month.year,
                                     }).toFormat('EEE')}
                                 >
                                     {day.moments.map((moment) => (
