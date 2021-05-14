@@ -12,6 +12,7 @@ import {
     IonContent,
     IonItemGroup,
     IonItemDivider,
+    IonDatetime,
 } from '@ionic/react';
 import { happyOutline, sadOutline, addOutline } from 'ionicons/icons';
 import { useState } from '@hookstate/core';
@@ -22,6 +23,7 @@ import { Moment } from '../models/Moment';
 import useMoment from '../custom-hooks/useMoment';
 import TheHeader from '../components/TheHeader';
 import { useTranslation } from 'react-i18next';
+import { DateTime } from 'luxon';
 
 const ParentDiv = styled.form`
     margin: auto auto;
@@ -61,16 +63,13 @@ const AddMoment: React.FC = () => {
     const labelInput = useState<string>('');
     const moment = useState<Moment>({
         id: 0,
-        title: '',
         description: '',
         labels: [],
         moodScale: 0,
-        createdAt: '',
+        createdAt: DateTime.local().toISO(),
         updatedAt: '',
         gratefulItems: [''],
     });
-
-    console.log(t('save'));
 
     const { labelHandler, momentHandler, skipHandler } = useMoment(state);
 
@@ -81,7 +80,7 @@ const AddMoment: React.FC = () => {
                 <ParentDiv
                     onSubmit={(e) => {
                         e.preventDefault();
-                        momentHandler(moment, () => router.push('/'));
+                        momentHandler(moment.get(), () => router.push('/'));
                     }}
                 >
                     <IonItemGroup>
@@ -91,13 +90,14 @@ const AddMoment: React.FC = () => {
                             <IonLabel> Moment </IonLabel>
                         </IonItemDivider>
                         <InputItem>
-                            <IonLabel position="floating">{t('title')}</IonLabel>
-                            <IonInput
-                                placeholder={t('title_placeholder')}
-                                required
-                                autofocus={true}
-                                value={moment.title.get()}
-                                onIonChange={(event) => moment.title.set(event.detail.value!.toString())}
+                            <IonLabel position="floating">Date</IonLabel>
+                            <IonDatetime
+                                displayFormat="DD MMM YYYY"
+                                value={moment.createdAt.get()}
+                                max={DateTime.local().endOf('day').toISO()}
+                                onIonChange={(e) => {
+                                    moment.createdAt.set(DateTime.fromISO(e.detail.value!).toISO());
+                                }}
                             />
                         </InputItem>
                         <InputItem>
@@ -117,7 +117,7 @@ const AddMoment: React.FC = () => {
                             <IonLabel>{t('mood')} </IonLabel>
                             <IonRange
                                 min={0}
-                                max={10}
+                                max={5}
                                 style={{ paddingBottom: '23px' }}
                                 pin={true}
                                 step={1}

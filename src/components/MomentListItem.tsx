@@ -8,15 +8,17 @@ import {
     IonLabel,
     IonModal,
     IonNote,
+    IonThumbnail,
 } from '@ionic/react';
 import { Moment } from '../models/Moment';
-import { trashOutline, resizeOutline } from 'ionicons/icons';
+import { trashOutline, resizeOutline, happyOutline } from 'ionicons/icons';
 import { useState } from '@hookstate/core';
 import globalStore from '../stores/global';
 import ExpandedMomentListItem from './ExpandedMomentListItem';
 import { ColorObject, getColorForPercentage } from '../helpers/general';
 import useMoment from '../custom-hooks/useMoment';
 import '../assets/styles/modal.css';
+import { DateTime } from 'luxon';
 
 const colorMaps: ColorObject[] = [
     { percentage: 0, color: { r: 255, g: 196, b: 9 } },
@@ -47,21 +49,12 @@ const MomentListItem: React.FC<{
             </IonModal>
             <IonItemSliding ref={listItem}>
                 <IonItem onClick={() => isItemExpanded.set((status) => !status)}>
+                    <IonIcon icon={happyOutline} slot="end" />
+
                     <IonLabel>
-                        <h2> {props.moment.title}</h2>
-                        <p> {props.moment.description}</p>
+                        <h2> {DateTime.fromISO(props.moment.createdAt).toLocaleString(DateTime.DATETIME_MED)}</h2>
                     </IonLabel>
 
-                    <IonNote
-                        slot="end"
-                        style={{
-                            fontSize: '1.2rem',
-                            color: getColorForPercentage(props.moment.moodScale / 10, colorMaps),
-                            width: '35.65px',
-                        }}
-                    >
-                        {props.moment.moodScale}
-                    </IonNote>
                     <IonIcon icon={resizeOutline} slot="end" />
                 </IonItem>
 

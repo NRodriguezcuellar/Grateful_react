@@ -1,6 +1,5 @@
 interface Moment {
     id: number;
-    title: string;
     description: string;
     labels: string[];
     moodScale: number;

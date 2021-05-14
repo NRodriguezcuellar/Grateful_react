@@ -1,6 +1,8 @@
 import { createState } from '@hookstate/core';
 import { Persistence } from '@hookstate/persistence';
 import { Moment } from '../models/Moment';
+import { DateTime } from 'luxon';
+import { concatenateAndParse } from '../helpers/general';
 
 export interface GlobalStore {
     dailyMomentStatus: {
@@ -25,13 +27,11 @@ const globalStore = createState<GlobalStore>({
     },
     moments: [],
     currentOpenMomentId: null,
-    currentOpenYearId: null,
-    currentOpenMonthId: null,
-    currentOpenWeekId: null,
+    currentOpenYearId: DateTime.local().year,
+    currentOpenMonthId: concatenateAndParse(DateTime.local().month, DateTime.local().year),
+    currentOpenWeekId: concatenateAndParse(DateTime.local().weekNumber, DateTime.local().year),
     currentOpenDayId: null,
     locale: 'nl',
 });
-
-globalStore.attach(Persistence('GratefulStorage'));
 
 export default globalStore;

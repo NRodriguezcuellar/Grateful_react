@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IonContent, IonPage, IonList, IonListHeader, IonSegmentButton, IonSegment } from '@ionic/react';
 import '../assets/styles/Tab1.css';
 import TheHeader from '../components/TheHeader';
@@ -8,6 +8,8 @@ import AggregatedMoments from '../components/MomentsAggregratedByTime';
 import { setStateBasedOnPeriodKind } from '../helpers/state';
 import { PeriodKind } from '../components/MomentDropdown';
 import { useTranslation } from 'react-i18next';
+import { MomentStorage } from '../helpers/storage';
+import { useAsyncEffect } from 'use-async-effect';
 
 const emptyState = { fontWeight: 400, margin: '1rem auto', width: '100%', paddingLeft: '1.3rem' };
 
@@ -15,6 +17,11 @@ const Homepage: React.FC = () => {
     const state = useState(globalStore);
     const timePeriodState = useState<PeriodKind>('week');
     const { t } = useTranslation(['general']);
+    const momentStorage = new MomentStorage().init();
+
+    useAsyncEffect(async () => {
+        state.moments.set(await momentStorage.getMoments());
+    }, []);
 
     const moments = () => {
         const moments = state.moments.get();

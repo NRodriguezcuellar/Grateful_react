@@ -26,19 +26,16 @@ const ExpandedItem: React.FC<{ moment: Moment }> = (props) => {
         <>
             <IonCard className="expanded-list-item">
                 <IonCardHeader translucent={true}>
-                    <IonCardTitle style={{ fontSize: '1.5rem' }}>{props.moment.title}</IonCardTitle>
-                    <IonCardSubtitle>
-                        {relativeDate}, {localeStringDateTime}
-                    </IonCardSubtitle>
+                    <IonCardTitle style={{ fontSize: '1.5rem' }}>{localeStringDateTime}</IonCardTitle>
+                    <IonCardSubtitle>{relativeDate}</IonCardSubtitle>
                     <IonCardSubtitle>
                         {t('add_moment:mood')}: {props.moment.moodScale}
                     </IonCardSubtitle>
                 </IonCardHeader>
+
                 <IonCardContent>
-                    <>
-                        <IonItemDivider style={{ margin: '1rem 0' }}>Moment</IonItemDivider>
-                        <p style={{ fontWeight: 400, padding: '0 0 2rem 0.5rem' }}>{props.moment.description}</p>{' '}
-                    </>
+                    <IonItemDivider style={{ margin: '1rem 0' }}>Moment</IonItemDivider>
+                    <p style={{ fontWeight: 400, padding: '0 0 2rem 0.5rem' }}>{props.moment.description}</p>
 
                     <IonItemDivider style={{ margin: '1rem 0' }}>Gratefuls</IonItemDivider>
                     <IonList>
