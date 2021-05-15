@@ -40,13 +40,15 @@ const MomentsAggregatedRecursively: React.FC<{ moments: any }> = ({ moments }) =
 
         if (keys.includes('moments')) {
             const momentObject = moment as AggregatedDay;
+
+            console.log(momentObject);
             return (
                 <MomentDropdown
                     level={3}
                     key={concatenateAndParse(momentObject.week, momentObject.year, momentObject.day)}
                     periodKind={'day'}
                     currentId={concatenateAndParse(momentObject.week, momentObject.year, momentObject.day)}
-                    label={returnDayLabel(momentObject.year, momentObject.month, momentObject.week)}
+                    label={returnDayLabel(momentObject.year, momentObject.month, momentObject.day)}
                 >
                     {momentObject.moments.map((moment: MomentWithDateData) => (
                         <MomentListItem key={moment.id} moment={moment} currentItemIndex={moment.id} />
