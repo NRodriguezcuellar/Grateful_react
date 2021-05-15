@@ -31,7 +31,7 @@ const MomentsAggregatedRecursively: React.FC<{ moments: any }> = ({ moments }) =
                     level={3}
                     key={concatenateAndParse(momentObject.week, momentObject.year)}
                     periodKind={'week'}
-                    currentId={concatenateAndParse(momentObject.year, momentObject.year)}
+                    currentId={concatenateAndParse(momentObject.week, momentObject.year)}
                     label={returnWeekLabel(momentObject.year, momentObject.month, momentObject.week, true)}
                 >
                     {MomentsAggregatedRecursively({ moments: momentObject.days })}
@@ -46,7 +46,7 @@ const MomentsAggregatedRecursively: React.FC<{ moments: any }> = ({ moments }) =
                     level={3}
                     key={concatenateAndParse(momentObject.week, momentObject.year, momentObject.day)}
                     periodKind={'day'}
-                    currentId={concatenateAndParse(momentObject.year, momentObject.year, momentObject.day)}
+                    currentId={concatenateAndParse(momentObject.week, momentObject.year, momentObject.day)}
                     label={returnDayLabel(momentObject.year, momentObject.month, momentObject.week)}
                 >
                     {momentObject.moments.map((moment: MomentWithDateData) => (
