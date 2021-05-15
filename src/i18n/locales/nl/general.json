@@ -1,10 +1,12 @@
 {
   "year": "Jaar",
   "month": "Maand",
-  "week": "Week",
+  "week": "week",
   "save": "Opslaan",
   "cancel": "Annuleren",
   "moment_list_title": "Jouw moments",
   "this_week": "deze week",
-  "this_month": "deze maand"
+  "this_month": "deze maand",
+  "this_day": "vandaag",
+  "this_year": "dit jaar"
 }

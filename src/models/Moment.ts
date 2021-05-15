@@ -15,30 +15,13 @@ interface MomentWithDateData extends Moment {
     year: number;
 }
 
-type AggregatedMonth = { month: number; weeks: AggregatedWeek[] };
-type AggregatedWeek = { week: number; days: AggregatedDay[] };
-type AggregatedDay = { day: number; moments: MomentWithDateData[] };
-
-interface AggregatedWeekWithYear extends AggregatedWeek {
-    year: number;
-    month: number;
-}
-interface AggregatedMonthWithYear extends AggregatedMonth {
-    year: number;
-}
+type AggregatedMonth = { year: number; month: number; weeks: AggregatedWeek[] };
+type AggregatedWeek = { year: number; month: number; week: number; days: AggregatedDay[] };
+type AggregatedDay = { year: number; month: number; week: number; day: number; moments: MomentWithDateData[] };
 
 interface AggregatedMoment {
     year: number;
     months: AggregatedMonth[];
 }
 
-export type {
-    Moment,
-    MomentWithDateData,
-    AggregatedMoment,
-    AggregatedDay,
-    AggregatedWeek,
-    AggregatedMonth,
-    AggregatedWeekWithYear,
-    AggregatedMonthWithYear,
-};
+export type { Moment, MomentWithDateData, AggregatedMoment, AggregatedDay, AggregatedWeek, AggregatedMonth };

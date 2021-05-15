@@ -1,10 +1,4 @@
-import {
-    AggregatedMoment,
-    AggregatedMonthWithYear,
-    AggregatedWeekWithYear,
-    Moment,
-    MomentWithDateData,
-} from '../models/Moment';
+import { AggregatedMoment, AggregatedMonth, AggregatedWeek, Moment, MomentWithDateData } from '../models/Moment';
 import { DateTime } from 'luxon';
 import { PeriodKind } from '../components/MomentDropdown';
 
@@ -38,10 +32,13 @@ const aggregateMomentsByYear = (moments: Moment[]) => {
         }
     });
 
-    const getAllDaysForTheWeek = (week: number, moments: MomentWithDateData[]) => {
+    const getAllDaysForTheWeek = (year: number, month: number, week: number, moments: MomentWithDateData[]) => {
         const allDays: number[] = timePeriodAmounts('week', moments, week);
 
         return allDays.map((day) => ({
+            year: year,
+            month: month,
+            week: week,
             day: day,
             moments: moments
                 .filter((moment) => moment.week === week && moment.day === day)
@@ -49,12 +46,16 @@ const aggregateMomentsByYear = (moments: Moment[]) => {
         }));
     };
 
-    const getAllWeeksForTheMonth = (month: number, moments: MomentWithDateData[]) => {
+    const getAllWeeksForTheMonth = (year: number, month: number, moments: MomentWithDateData[]) => {
         const allWeeks: number[] = timePeriodAmounts('month', moments, month);
 
         return allWeeks.map((week) => ({
+            year: year,
+            month: month,
             week: week,
             days: getAllDaysForTheWeek(
+                year,
+                month,
                 week,
                 moments.filter((moment) => moment.month === month),
             ),
@@ -65,8 +66,10 @@ const aggregateMomentsByYear = (moments: Moment[]) => {
         const allMonths: number[] = timePeriodAmounts('year', moments, year);
 
         return allMonths.map((month) => ({
+            year: year,
             month: month,
             weeks: getAllWeeksForTheMonth(
+                year,
                 month,
                 moments.filter((moment) => moment.year === year),
             ),
@@ -86,7 +89,7 @@ const aggregateMomentsByYear = (moments: Moment[]) => {
 };
 
 const aggregateMomentsbyWeek = (aggregatedMoments: AggregatedMoment[]) => {
-    const allWeeks: AggregatedWeekWithYear[] = [];
+    const allWeeks: AggregatedWeek[] = [];
 
     aggregatedMoments.forEach((year) => {
         year.months.forEach((month) =>
@@ -94,17 +97,16 @@ const aggregateMomentsbyWeek = (aggregatedMoments: AggregatedMoment[]) => {
         );
     });
 
-    return allWeeks.sort(
-        (a, b) =>
-            DateTime.fromObject({ year: b.year, month: b.month }).toSeconds() -
-            DateTime.fromObject({ year: a.year, month: a.month }).toSeconds(),
-    );
+    return sortWeeks(allWeeks);
 };
 
 const aggregateMomentsByMonths = (aggregatedMoments: AggregatedMoment[]) => {
-    const allMonths: AggregatedMonthWithYear[] = [];
+    const allMonths: AggregatedMonth[] = [];
     aggregatedMoments.forEach((year) => {
-        year.months.forEach((month) => allMonths.push({ ...month, year: year.year }));
+        year.months.forEach((month) => {
+            sortWeeks(month.weeks);
+            allMonths.push(month);
+        });
     });
     return allMonths.sort(
         (a, b) =>
@@ -112,6 +114,13 @@ const aggregateMomentsByMonths = (aggregatedMoments: AggregatedMoment[]) => {
             DateTime.fromObject({ year: a.year, month: a.month }).toSeconds(),
     );
 };
+
+const sortWeeks = (weeks: AggregatedWeek[]) =>
+    weeks.sort(
+        (a, b) =>
+            DateTime.fromObject({ weekYear: b.year, weekNumber: b.week }).toSeconds() -
+            DateTime.fromObject({ weekYear: a.year, weekNumber: a.week }).toSeconds(),
+    );
 
 export class MomentAggregator {
     constructor(public moments: Moment[]) {}

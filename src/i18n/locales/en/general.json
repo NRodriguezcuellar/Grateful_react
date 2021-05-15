@@ -6,5 +6,7 @@
   "cancel": "Cancel",
   "moment_list_title": "Your moments",
   "this_week": "This week",
-  "this_month": "This month"
+  "this_month": "This month",
+  "this_day": "Today",
+  "this_year": "This year"
 }

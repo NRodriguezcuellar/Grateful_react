@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import i18next from 'i18next';
 
 interface ColorObject {
     percentage: number;
@@ -37,20 +38,31 @@ const checkIfCurrentMonth = (year: number, month: number) => {
     return currentTime.year === year && currentTime.month === month;
 };
 
-const returnWeekLabel = (year: number, month: number, week: number, translation: string, showYear = false) => {
+const returnWeekLabel = (year: number, month: number, week: number, showYear = false) => {
     const currentYear = DateTime.local().year;
     if (checkIfCurrentWeek(year, month, week)) {
-        return translation + ` (${week})`;
+        return i18next.t('this_week');
     } else {
-        return `week ${week}${showYear && year !== currentYear ? `, ${year}` : ''}`;
+        return i18next.t('week') + ` ${week}${showYear && year !== currentYear ? `, ${year}` : ''}`;
     }
 };
 
-const returnMonthLabel = (year: number, month: number, translation: string, showYear = false) => {
+const returnDayLabel = (year: number, month: number, day: number) => {
+    const today = DateTime.local().startOf('day');
+    const dayObject = DateTime.fromObject({ year: year, month: month, day: day }).startOf('day');
+
+    if (today.equals(dayObject)) {
+        return i18next.t('this_day');
+    } else {
+        return dayObject.toFormat('EEE');
+    }
+};
+
+const returnMonthLabel = (year: number, month: number, showYear = false) => {
     const monthString = DateTime.fromObject({ month: month, year: year }).toFormat('MMM');
     const currentYear = DateTime.local().year;
     if (checkIfCurrentMonth(year, month)) {
-        return translation + ` (${monthString})`;
+        return i18next.t('this_month');
     } else {
         return `${monthString}${showYear && year !== currentYear ? ` ${year}` : ''}`;
     }
@@ -65,4 +77,11 @@ const concatenateAndParse = (...numbers: number[]) => {
 };
 
 export type { ColorObject };
-export { getColorForPercentage, checkIfCurrentWeek, returnWeekLabel, returnMonthLabel, concatenateAndParse };
+export {
+    getColorForPercentage,
+    checkIfCurrentWeek,
+    returnWeekLabel,
+    returnMonthLabel,
+    concatenateAndParse,
+    returnDayLabel,
+};

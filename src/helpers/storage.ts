@@ -1,5 +1,6 @@
 import { Plugins } from '@capacitor/core';
 import { Moment } from '../models/Moment';
+import { GlobalStore } from '../stores/global';
 
 const { Storage } = Plugins;
 
@@ -31,7 +32,8 @@ export class MomentStorage {
         const momentStorageExists = await this.getMoments();
 
         if (savedMoments && momentStorageExists) {
-            const parseSavedMoments = JSON.parse(savedMoments);
+            const parseSavedMoments: GlobalStore = JSON.parse(savedMoments);
+            parseSavedMoments.moments.forEach((moment) => (moment.moodScale = Math.round(moment.moodScale / 2)));
             await this.setStorageValue([...momentStorageExists, ...parseSavedMoments.moments]);
         }
     }

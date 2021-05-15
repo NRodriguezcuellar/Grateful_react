@@ -34,4 +34,5 @@ const globalStore = createState<GlobalStore>({
     locale: 'nl',
 });
 
+globalStore.attach(Persistence('grateful_settings'));
 export default globalStore;

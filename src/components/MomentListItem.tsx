@@ -11,7 +11,7 @@ import {
     IonThumbnail,
 } from '@ionic/react';
 import { Moment } from '../models/Moment';
-import { trashOutline, resizeOutline, happyOutline } from 'ionicons/icons';
+import { trashOutline, resizeOutline, happyOutline, sadOutline } from 'ionicons/icons';
 import { useState } from '@hookstate/core';
 import globalStore from '../stores/global';
 import ExpandedMomentListItem from './ExpandedMomentListItem';
@@ -49,7 +49,7 @@ const MomentListItem: React.FC<{
             </IonModal>
             <IonItemSliding ref={listItem}>
                 <IonItem onClick={() => isItemExpanded.set((status) => !status)}>
-                    <IonIcon icon={happyOutline} slot="end" />
+                    <IonIcon icon={props.moment.moodScale > 3 ? happyOutline : sadOutline} slot="end" />
 
                     <IonLabel>
                         <h2> {DateTime.fromISO(props.moment.createdAt).toLocaleString(DateTime.DATETIME_MED)}</h2>
