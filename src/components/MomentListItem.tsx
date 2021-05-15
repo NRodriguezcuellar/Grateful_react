@@ -49,7 +49,7 @@ const MomentListItem: React.FC<{
             </IonModal>
             <IonItemSliding ref={listItem}>
                 <IonItem onClick={() => isItemExpanded.set((status) => !status)}>
-                    <IonIcon icon={props.moment.moodScale > 3 ? happyOutline : sadOutline} slot="end" />
+                    <IonIcon icon={props.moment.moodScale >= 3 ? happyOutline : sadOutline} slot="end" />
 
                     <IonLabel>
                         <h2> {DateTime.fromISO(props.moment.createdAt).toLocaleString(DateTime.DATETIME_MED)}</h2>

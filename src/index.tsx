@@ -7,6 +7,20 @@ import { FirebaseAuthProvider, FirebaseAuthConsumer } from '@react-firebase/auth
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { firebaseConfig } from './firebase';
+import { Settings } from 'luxon';
+
+import i18n from 'i18next';
+import { GratefulSettings } from './helpers/gratefulSettings';
+import globalStore from './stores/global';
+
+const grateful_settings = new GratefulSettings().init();
+
+grateful_settings.getSettings().then((settings) => {
+    if (settings) {
+        i18n.changeLanguage(settings.locale);
+        Settings.defaultLocale = i18n.language;
+    }
+});
 
 ReactDOM.render(
     <React.StrictMode>

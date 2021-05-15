@@ -41,8 +41,6 @@ export class MomentStorage {
     async saveMoment(moment: Moment) {
         const moments = await this.getMoments();
 
-        console.log(moment);
-
         await this.setStorageValue([...moments, moment]);
     }
 

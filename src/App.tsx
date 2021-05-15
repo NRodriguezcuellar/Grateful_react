@@ -18,15 +18,9 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import './i18n';
-import { Settings } from 'luxon';
 
 /* Theme variables */
 import './theme/variables.css';
-import i18n from 'i18next';
-import globalStore from './stores/global';
-
-i18n.changeLanguage(globalStore.locale.get());
-Settings.defaultLocale = i18n.language;
 
 const App: React.FC = () => {
     return (

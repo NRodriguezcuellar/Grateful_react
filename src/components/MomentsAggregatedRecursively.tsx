@@ -41,7 +41,6 @@ const MomentsAggregatedRecursively: React.FC<{ moments: any }> = ({ moments }) =
         if (keys.includes('moments')) {
             const momentObject = moment as AggregatedDay;
 
-            console.log(momentObject);
             return (
                 <MomentDropdown
                     level={3}

@@ -3,15 +3,16 @@ import React from 'react';
 import TheHeader from '../components/TheHeader';
 import { useTranslation } from 'react-i18next';
 import { Settings as DateTimeSettings } from 'luxon';
-import globalStore from '../stores/global';
+import { GratefulSettings } from '../helpers/gratefulSettings';
 
 const Settings: React.FC = () => {
     const { i18n } = useTranslation();
+    const grateful_settings = new GratefulSettings().init();
 
     const languageSelectHandler = async (language: string) => {
         await i18n.changeLanguage(language);
         DateTimeSettings.defaultLocale = i18n.language;
-        globalStore.locale.set(language);
+        await grateful_settings.setSettings({ locale: language });
     };
 
     return (

@@ -44,11 +44,6 @@ const momentHandler = (store: State<GlobalStore>, moment: Moment, routeCallBack?
 };
 
 const skipHandler = (store: State<GlobalStore>, routeCallBack?: any) => {
-    store.dailyMomentStatus.merge({
-        userMadeMomentToday: true,
-        lastUpdatedAt: DateTime.local().toISO(),
-    });
-
     if (routeCallBack) {
         routeCallBack();
     }
@@ -56,8 +51,9 @@ const skipHandler = (store: State<GlobalStore>, routeCallBack?: any) => {
 
 const deleteMoment = async (store: State<GlobalStore>, idToDelete: Moment['id']) => {
     await momentStorage.deleteMoment(idToDelete);
+    const moments = await momentStorage.getMoments();
 
-    if (!store.moments.length) {
+    if (!moments.length) {
         store.currentOpenMomentId.set(null);
     }
 
