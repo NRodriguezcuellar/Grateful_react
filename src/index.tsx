@@ -11,7 +11,6 @@ import { Settings } from 'luxon';
 
 import i18n from 'i18next';
 import { GratefulSettings } from './helpers/gratefulSettings';
-import globalStore from './stores/global';
 
 const grateful_settings = new GratefulSettings().init();
 

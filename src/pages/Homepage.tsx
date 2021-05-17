@@ -1,5 +1,15 @@
-import React, { useEffect } from 'react';
-import { IonContent, IonPage, IonList, IonListHeader, IonSegmentButton, IonSegment } from '@ionic/react';
+import React from 'react';
+import {
+    IonContent,
+    IonPage,
+    IonList,
+    IonListHeader,
+    IonSegmentButton,
+    IonSegment,
+    IonFab,
+    IonFabButton,
+    IonIcon,
+} from '@ionic/react';
 import '../assets/styles/Tab1.css';
 import TheHeader from '../components/TheHeader';
 import { State, useState } from '@hookstate/core';
@@ -10,6 +20,8 @@ import { PeriodKind } from '../components/MomentDropdown';
 import { useTranslation } from 'react-i18next';
 import { MomentStorage } from '../helpers/storage';
 import { useAsyncEffect } from 'use-async-effect';
+import { addOutline, chevronUpCircleOutline } from 'ionicons/icons';
+import { useHistory } from 'react-router';
 
 const emptyState = { fontWeight: 400, margin: '1rem auto', width: '100%', paddingLeft: '1.3rem' };
 
@@ -18,6 +30,7 @@ const Homepage: React.FC = () => {
     const timePeriodState = useState<PeriodKind>('week');
     const { t } = useTranslation(['general']);
     const momentStorage = new MomentStorage().init();
+    const history = useHistory();
 
     useAsyncEffect(async () => {
         state.moments.set(await momentStorage.getMoments());
@@ -42,7 +55,7 @@ const Homepage: React.FC = () => {
         <IonPage>
             <TheHeader />
             <IonContent>
-                <IonList style={{ minHeight: '100%' }}>
+                <IonList style={{ minHeight: '85%' }}>
                     <IonListHeader>
                         <h1>{t('moment_list_title')}</h1>
                     </IonListHeader>
@@ -57,6 +70,12 @@ const Homepage: React.FC = () => {
 
                     {moments()}
                 </IonList>
+
+                <IonFab slot="fixed" vertical="bottom" horizontal="end" onClick={() => history.push('addMoment')}>
+                    <IonFabButton>
+                        <IonIcon icon={addOutline} />
+                    </IonFabButton>
+                </IonFab>
             </IonContent>
         </IonPage>
     );
