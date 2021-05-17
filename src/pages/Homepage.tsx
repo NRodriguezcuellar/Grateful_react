@@ -55,7 +55,7 @@ const Homepage: React.FC = () => {
         <IonPage>
             <TheHeader />
             <IonContent>
-                <IonList style={{ minHeight: '85%' }}>
+                <IonList style={{ height: '100%' }}>
                     <IonListHeader>
                         <h1>{t('moment_list_title')}</h1>
                     </IonListHeader>
